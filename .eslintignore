@@ -1,0 +1,4 @@
+*.css
+chrome
+server/src/services/private-api/public
+server/src/services/web/public

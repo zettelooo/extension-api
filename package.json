@@ -1,0 +1,70 @@
+{
+  "name": "@zettelyay/extension-api",
+  "description": "Zettel: Extension API for Web extensions",
+  "version": "0.0.0",
+  "files": [
+    "dist/**"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    ".l": "npm run lint-staged",
+    ".u": "npm run peers.upgrade",
+    "lint-staged": "cross-env NODE_ENV=production lint-staged --verbose",
+    "prepublishOnly": "npm run build",
+    "build": "npm run peers.validate && npm run clean && npm run tsc && npm run manifest-json-schema",
+    "clean": "rimraf dist",
+    "tsc": "tsc",
+    "manifest-json-schema": "typescript-json-schema --out dist/manifest-json-schema.json tsconfig.json ManifestJson",
+    "peers.validate": "check-peer-dependencies --runOnlyOnRootDependencies",
+    "peers.upgrade": "node -e \"const p = require('./package.json'); const k = Object.keys(p).filter(key => /dependencies$/i.test(key)); const d = k.flatMap(key => Object.keys(p[key]).filter(dep => /^@zettelyay\\//.test(dep)).map(dep => `${dep}@latest`)).join(' '); if(d) { require('child_process').execSync(`npm install ${d}`, { encoding: 'utf-8', stdio: 'inherit' }) }\"",
+    "updates.check": "ncu",
+    "updates.install": "rimraf package-lock.json && ncu --upgrade && npm install",
+    "preversion": "git-branch-is master",
+    "postversion": "git push --follow-tags",
+    "gource": "gource --seconds-per-day 0.35 --auto-skip-seconds 0.1 --file-idle-time 0 --max-file-lag 1",
+    "status": "sloc src/",
+    "test": "echo \"No test yet.\"",
+    "prepare": "husky install"
+  },
+  "peerDependencies": {
+    "@zettelyay/commons": "^2.2.0",
+    "@zettelyay/models": "^2.1.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "check-peer-dependencies": "^4.2.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "git-branch-is": "^4.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "npm-check-updates": "^16.10.9",
+    "prettier": "^2.8.8",
+    "rimraf": "^5.0.0",
+    "sloc": "^0.2.1",
+    "typescript": "^5.0.4",
+    "typescript-json-schema": "^0.56.0"
+  },
+  "license": "ISC",
+  "keywords": [
+    "zettel",
+    "web",
+    "extension",
+    "api"
+  ],
+  "author": {
+    "name": "Zettel",
+    "email": "zettel@zettel.ooo"
+  },
+  "contributors": [
+    "Hessamoddin A Shokravi <ahs502@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zettelyay/extension-api"
+  }
+}
