@@ -28,7 +28,7 @@
     "prepare": "husky install"
   },
   "peerDependencies": {
-    "@zettelyay/commons": "^2.3.2",
+    "@zettelyay/commons": "^2.4.0",
     "@zettelyay/models": "^2.1.2"
   },
   "devDependencies": {
