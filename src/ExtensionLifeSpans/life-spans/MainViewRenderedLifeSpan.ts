@@ -1,5 +1,5 @@
-import { Id } from '@zettelyay/commons'
-import { ExtensionScope } from '@zettelyay/models'
+import { Id } from '@zettelooo/commons'
+import { ExtensionScope } from '@zettelooo/models'
 import { ExtensionLifeSpanRegistrar } from '../../extension-function'
 import { ExtensionLifeSpanType } from '../types'
 

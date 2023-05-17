@@ -1,5 +1,5 @@
-import { Id, PartialReadonlyRecord, HandlerOutput } from '@zettelyay/commons'
-import { ExtensionScope, MutableModel } from '@zettelyay/models'
+import { Id, PartialReadonlyRecord, HandlerOutput } from '@zettelooo/commons'
+import { ExtensionScope, MutableModel } from '@zettelooo/models'
 import { HtmlContent } from '../../HtmlContent'
 import { RenderedElement } from '../../RenderedElement'
 import { Language, ConfirmationDialogOptions, CommandGroup } from '../../adopted'

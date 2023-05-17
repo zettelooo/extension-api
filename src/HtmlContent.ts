@@ -1,4 +1,4 @@
-import { HandlerOutput } from '@zettelyay/commons'
+import { HandlerOutput } from '@zettelooo/commons'
 
 export interface HtmlContent<S = undefined> {
   readonly initialState: S

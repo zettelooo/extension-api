@@ -1,4 +1,4 @@
-import { ExtensionScope } from '@zettelyay/models'
+import { ExtensionScope } from '@zettelooo/models'
 
 export interface ManifestJson {
   readonly appId: string

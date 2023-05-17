@@ -1,4 +1,4 @@
-import { HandlerOutput, Keyboard } from '@zettelyay/commons'
+import { HandlerOutput, Keyboard } from '@zettelooo/commons'
 
 export type Language = 'en' | 'fa'
 

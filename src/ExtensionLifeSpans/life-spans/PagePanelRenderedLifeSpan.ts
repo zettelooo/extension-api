@@ -1,5 +1,5 @@
-import { Id } from '@zettelyay/commons'
-import { ExtensionScope, MutableModel } from '@zettelyay/models'
+import { Id } from '@zettelooo/commons'
+import { ExtensionScope, MutableModel } from '@zettelooo/models'
 import { NavigableStatus } from '../../adopted'
 import { ExtensionLifeSpanRegistrar } from '../../extension-function'
 import { HtmlContent } from '../../HtmlContent'

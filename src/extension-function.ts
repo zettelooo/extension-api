@@ -1,5 +1,5 @@
-import { Id } from '@zettelyay/commons'
-import { ExtensionScope } from '@zettelyay/models'
+import { Id } from '@zettelooo/commons'
+import { ExtensionScope } from '@zettelooo/models'
 import { ExtensionLifeSpanDefinitions } from './ExtensionLifeSpans'
 
 export type ExtensionFunction = (
