@@ -1,3 +1,5 @@
+export * from './version'
+
 export * from './adopted'
 export * from './extension-function'
 export * from './HtmlContent'
