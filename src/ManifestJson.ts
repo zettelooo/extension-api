@@ -5,6 +5,7 @@ export interface ManifestJson {
   readonly version: string
   readonly name: string
   readonly description: string
+  readonly aiDescription?: string
   readonly avatar: {
     readonly file?: string
     readonly dataUrl?: string
