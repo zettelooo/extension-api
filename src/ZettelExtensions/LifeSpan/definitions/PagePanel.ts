@@ -1,34 +1,31 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
-import { ExtensionScope, MutableModel } from '@zettelooo/models'
-import { NavigableStatus } from '../../adopted'
-import { ExtensionLifeSpanRegistrar } from '../../extension-function'
-import { HtmlContent } from '../../HtmlContent'
-import { ExtensionLifeSpanType } from '../types'
+import { Scope } from '../../Scope'
+import { HtmlContent } from '../../types/HtmlContent'
+import { TypeBuilder } from '../TypeBuilder'
+import { Registrar } from '../types'
 
-export type PagePanelRenderedLifeSpan = ExtensionLifeSpanType<
+export type PagePanel = TypeBuilder<
   {
     pageId: Id
   },
-  [ExtensionScope.Device, ExtensionScope.User, ExtensionScope.Space, ExtensionScope.Page],
+  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    navigableStatus: NavigableStatus
-    page: MutableModel.Entity.Page
-    pageMembers: readonly MutableModel.Entity.PageMember[]
-    cards: readonly MutableModel.Entity.Card[]
+    page: ZettelTypes.Extension.Entity.Page
+    pageMembers: readonly ZettelTypes.Extension.Entity.PageMember[]
+    cards: readonly ZettelTypes.Extension.Entity.Card[]
   },
   {
-    getPageName(): string
-    pasteTextIntoComposer(text: string, html?: string): { success: boolean }
+    // pasteTextIntoComposer(text: string, html?: string): { success: boolean }
   },
   {
-    activator(activator: Shared.Activator): ExtensionLifeSpanRegistrar<Shared.Activator.Reference>
-    status(getter: () => Shared.Status): ExtensionLifeSpanRegistrar<Shared.Status.Reference>
-    menuItem(getter: () => Shared.MenuItem): ExtensionLifeSpanRegistrar<Shared.MenuItem.Reference>
-    message<S = undefined>(getter: () => Shared.Message<S>): ExtensionLifeSpanRegistrar<Shared.Message.Reference<S>>
-    loadingIndicator(getter: () => string): ExtensionLifeSpanRegistrar
-    composer<S = undefined>(getter: () => Shared.Composer<S>): ExtensionLifeSpanRegistrar<Shared.Composer.Reference<S>>
-    quickAction(getter: () => Shared.QuickAction): ExtensionLifeSpanRegistrar<Shared.QuickAction.Reference>
-    commandLinePromptInput(getter: () => Shared.CommandLinePromptInput): ExtensionLifeSpanRegistrar
+    status(getter: () => Shared.Status): Registrar<Shared.Status.Reference>
+    menuItem(getter: () => Shared.MenuItem): Registrar<Shared.MenuItem.Reference>
+    message<S = undefined>(getter: () => Shared.Message<S>): Registrar<Shared.Message.Reference<S>>
+    loadingIndicator(getter: () => string): Registrar
+    composer<S = undefined>(getter: () => Shared.Composer<S>): Registrar<Shared.Composer.Reference<S>>
+    quickAction(getter: () => Shared.QuickAction): Registrar<Shared.QuickAction.Reference>
+    commandLinePromptInput(getter: () => Shared.CommandLinePromptInput): Registrar
   }
 >
 
@@ -45,8 +42,8 @@ export namespace Shared {
 
   export interface Status {
     readonly readonly?: boolean
-    readonly hideOwner?: boolean
-    readonly hideComposer?: boolean
+    readonly hideCardOwners?: boolean
+    readonly showDefaultComposer?: boolean
   }
 
   export namespace Status {
@@ -92,7 +89,6 @@ export namespace Shared {
     readonly title: string
     readonly description?: string
     readonly avatarUrl?: string
-    readonly category?: QuickAction.Category
     readonly disabled?: boolean
   } & (
     | {
@@ -109,12 +105,6 @@ export namespace Shared {
   export namespace QuickAction {
     export interface Reference {
       readonly update: (updates: Partial<QuickAction> | ((previous: QuickAction) => Partial<QuickAction>)) => void
-    }
-
-    export enum Category {
-      Productivity = 'PRODUCTIVITY',
-      Personal = 'PERSONAL',
-      Crypto = 'CRYPTO',
     }
   }
 

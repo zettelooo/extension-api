@@ -1,21 +1,18 @@
-import { Id, PartialReadonlyRecord, HandlerOutput } from '@zettelooo/commons'
-import { ExtensionScope, MutableModel } from '@zettelooo/models'
-import { HtmlContent } from '../../HtmlContent'
-import { RenderedElement } from '../../RenderedElement'
-import { Language, ConfirmationDialogOptions, CommandGroup } from '../../adopted'
-import { ExtensionLifeSpanRegistrar } from '../../extension-function'
-import { ExtensionLifeSpanType } from '../types'
+import { ZettelTypes } from '@zettelooo/api-types'
+import { Id } from '@zettelooo/commons'
+import { Scope } from '../../Scope'
+import { HtmlContent } from '../../types/HtmlContent'
+import { RenderedElement } from '../../types/RenderedElement'
+import { TypeBuilder } from '../TypeBuilder'
+import { Registrar } from '../types'
 
-export type ActivatedLifeSpan = ExtensionLifeSpanType<
+export type Activated = TypeBuilder<
   {},
-  [ExtensionScope.Device],
+  [Scope.Device],
   {
     deviceId: Id
     themeType: 'light' | 'dark'
-    language: Language
-    allUsers: readonly MutableModel.Entity.User[]
-    allUsersDictionary: PartialReadonlyRecord<Id, MutableModel.Entity.User>
-    allPageMembers: readonly MutableModel.Entity.PageMember[]
+    language: string
   },
   {
     showMessage(
@@ -27,67 +24,85 @@ export type ActivatedLifeSpan = ExtensionLifeSpanType<
       }
     ): void
 
-    confirm(options?: Partial<ConfirmationDialogOptions>): Promise<boolean>
+    confirm(options?: Shared.Confirm.Options): Promise<boolean>
 
-    /** If it's canceled by the user, this will be rejected by `"Canceled"` */
-    commandBarSelectItem<T>(options: {
-      prompt?: string
-      description?: string
-      items: readonly T[]
-      getTitle(item: T): string
-      getDescription?(item: T): string
-    }): Promise<T>
+    /** @throws If it's canceled by the user, this will be rejected by `"Canceled"` */
+    selectItem<T>(options: Shared.SelectItem.Options<T>): Promise<T>
 
-    /** If it's canceled by the user, this will be rejected by `"Canceled"` */
-    commandBarInputString(options?: {
-      prompt?: string
-      description?: string
-      placeholder?: string
-      initialValue?: string
-    }): Promise<string>
+    /** @throws If it's canceled by the user, this will be rejected by `"Canceled"` */
+    inputString(options?: Shared.InputString.Options): Promise<string>
 
-    /** If it's canceled by the user, this will be rejected by `"Canceled"` */
-    commandBarInputStringWithSelectItem<T>(options: {
-      prompt?: string
-      description?: string
-      placeholder?: string
-      initialValue?: string
-      items: readonly T[]
-      getTitle(item: T): string
-      getDescription?(item: T): string
-      getValue?(item: T): string
-    }): Promise<{ value: string; selectedItem?: T }>
-
-    runCommandStatic(codeName: string): HandlerOutput | Promise<HandlerOutput>
+    /** @throws If it's canceled by the user, this will be rejected by `"Canceled"` */
+    inputStringWithSelectItem<T>(
+      options: Shared.InputStringWithSelection.Options<T>
+    ): Promise<{ value: string; selectedItem?: T }>
 
     generateId(): Id
 
     copyTextToClipboard(text: string): void
   },
   {
-    commandGroup(getter: () => CommandGroup): ExtensionLifeSpanRegistrar
+    dialog<S = undefined>(getter: () => Shared.Dialog<S>): Registrar<Shared.Dialog.Reference<S>>
 
-    dialog<S = undefined>(getter: () => Shared.Dialog<S>): ExtensionLifeSpanRegistrar<Shared.Dialog.Reference<S>>
+    renderedButton(getter: () => Shared.RenderedButton): Registrar<Shared.RenderedButton.Reference>
 
-    renderedButton(getter: () => Shared.RenderedButton): ExtensionLifeSpanRegistrar<Shared.RenderedButton.Reference>
+    renderedTextField(getter: () => Shared.RenderedTextField): Registrar<Shared.RenderedTextField.Reference>
 
-    renderedTextField(
-      getter: () => Shared.RenderedTextField
-    ): ExtensionLifeSpanRegistrar<Shared.RenderedTextField.Reference>
-
-    renderedSelect(getter: () => Shared.RenderedSelect): ExtensionLifeSpanRegistrar<Shared.RenderedSelect.Reference>
+    renderedSelect(getter: () => Shared.RenderedSelect): Registrar<Shared.RenderedSelect.Reference>
 
     renderedCardViewerFull(
       getter: () => Shared.RenderedCardViewerFull
-    ): ExtensionLifeSpanRegistrar<Shared.RenderedCardViewerFull.Reference>
+    ): Registrar<Shared.RenderedCardViewerFull.Reference>
 
     renderedCardViewerCompact(
       getter: () => Shared.RenderedCardViewerCompact
-    ): ExtensionLifeSpanRegistrar<Shared.RenderedCardViewerCompact.Reference>
+    ): Registrar<Shared.RenderedCardViewerCompact.Reference>
   }
 >
 
 export namespace Shared {
+  export namespace Confirm {
+    export interface Options {
+      readonly title?: string
+      readonly content?: string
+      readonly confirmLabel?: string
+      readonly cancelLabel?: string
+      readonly forceSelect?: boolean
+    }
+  }
+
+  export namespace SelectItem {
+    export interface Options<T> {
+      readonly prompt?: string
+      readonly description?: string
+      readonly items: readonly T[]
+      readonly getTitle: (item: T) => string
+      readonly getDescription?: (item: T) => string
+    }
+  }
+
+  export namespace InputString {
+    export interface Options {
+      readonly prompt?: string
+      readonly description?: string
+      readonly placeholder?: string
+      readonly initialValue?: string
+    }
+  }
+
+  export namespace InputStringWithSelection {
+    export interface Options<T> {
+      readonly prompt?: string
+      readonly description?: string
+      readonly placeholder?: string
+      readonly initialValue?: string
+      readonly items: readonly T[]
+      readonly getTitle: (item: T) => string
+      readonly getDescription?: (item: T) => string
+      readonly getValue?: (item: T) => string
+    }
+  }
+
   export interface Dialog<S = undefined> extends HtmlContent<S> {
     readonly fullScreen?: boolean
     readonly fullWidth?: boolean
@@ -200,13 +215,13 @@ export namespace Shared {
   }
 
   export interface RenderedCardViewerFull extends RenderedElement {
-    readonly card: MutableModel.Entity.Card
+    readonly card: ZettelTypes.Extension.Entity.Card
     readonly readonly?: boolean
     readonly scale?: number
     readonly previewHeight: number
     readonly maximumHeight?: number
     readonly hideOwner?: boolean
-    readonly displayPage?: MutableModel.Entity.Page
+    readonly displayPage?: ZettelTypes.Model.Page
     readonly showTimestamp?: boolean
     readonly isHighlighted?: boolean
   }
@@ -222,7 +237,7 @@ export namespace Shared {
   }
 
   export interface RenderedCardViewerCompact extends RenderedElement {
-    readonly card: MutableModel.Entity.Card
+    readonly card: ZettelTypes.Extension.Entity.Card
     readonly readonly?: boolean
     readonly scale?: number
     readonly previewWidth: number

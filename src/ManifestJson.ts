@@ -1,4 +1,4 @@
-import { ExtensionScope } from '@zettelooo/models'
+import { ZettelExtensions } from './ZettelExtensions'
 
 export interface ManifestJson {
   readonly appId: string
@@ -11,6 +11,6 @@ export interface ManifestJson {
     readonly dataUrl?: string
   }
   readonly documentationMarkdownFile?: string
-  readonly scopes: readonly ExtensionScope[]
+  readonly scopes: readonly ZettelExtensions.Scope[]
   readonly extensionDependencies?: readonly string[]
 }

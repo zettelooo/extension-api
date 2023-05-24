@@ -1,38 +1,45 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
-import { ExtensionScope, MutableModel } from '@zettelooo/models'
-import { ExtensionLifeSpanType } from '../types'
+import { Scope } from '../../Scope'
+import { TypeBuilder } from '../TypeBuilder'
 
-export type SignedInLifeSpan = ExtensionLifeSpanType<
+export type SignedIn = TypeBuilder<
   {},
-  [ExtensionScope.Device, ExtensionScope.User],
+  [Scope.Device, Scope.User],
   {
-    account: MutableModel.Entity.Account
-    accountSpacesOrdered: readonly MutableModel.Entity.Space[]
-    accountSelectedSpace: MutableModel.Entity.Space | undefined
-    accountSelectedSpacePagesOrdered: readonly MutableModel.Entity.Page[]
-    accountSelectedSpaceEditablePagesOrdered: readonly MutableModel.Entity.Page[]
-    accountSelectedSpaceCardsOrdered: readonly MutableModel.Entity.Card[]
+    account: ZettelTypes.Extension.Entity.Account
+    accountPagesOrdered: readonly ZettelTypes.Extension.Entity.Page[]
+    accountEditablePagesOrdered: readonly ZettelTypes.Extension.Entity.Page[]
+    accountCardsOrdered: readonly ZettelTypes.Extension.Entity.Card[]
   },
   {
     updatePage(updates: Shared.UpdatePage.PageData): Promise<void>
+
     getCardPreviewText(cardId: Id): Promise<string>
-    createCard(card: Shared.CreateCard.CardData): Promise<MutableModel.Entity.Card>
+
+    createCard(card: Shared.CreateCard.CardData): Promise<ZettelTypes.Extension.Entity.Card>
+
     updateCard(updates: Shared.UpdateCard.CardData): Promise<void>
+
     /** @throws If the page is not found for, or not editable by the user. */
     setPageExtensionData<T>(pageId: Id, extensionData: T): Promise<void>
+
     /** @throws If the card is not found for, or not editable by the user. */
     setCardExtensionData<T>(cardId: Id, extensionData: T): Promise<void>
+
+    /** @throws If the card is not found for, or not editable by the user. */
+    setCardBlockExtensionData<T>(cardId: Id, blockId: Id, extensionData: T): Promise<void>
   },
   {}
 >
 
 export namespace Shared {
   export namespace UpdatePage {
-    export type PageData = Pick<MutableModel.Page, 'id'> &
+    export type PageData = Pick<ZettelTypes.Extension.Entity.Page, 'id'> &
       Partial<
         Pick<
-          MutableModel.Page,
-          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'shareOnWebMode'
+          ZettelTypes.Extension.Entity.Page,
+          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'public'
         >
       >
   }
@@ -46,14 +53,7 @@ export namespace Shared {
         readonly nextSequence?: string
       }
       readonly extensionData?: any
-    } & (
-      | {
-          readonly blocks: readonly MutableModel.Block[]
-        }
-      | {
-          readonly text: string
-        }
-    )
+    } & ({ readonly blocks: readonly ZettelTypes.Extension.Entity.Block[] } | { readonly text: string })
   }
 
   export namespace UpdateCard {
@@ -66,13 +66,6 @@ export namespace Shared {
         readonly nextSequence?: string
       }
       readonly extensionData?: any
-    } & (
-      | {
-          readonly blocks?: readonly MutableModel.Block[]
-        }
-      | {
-          readonly text?: string
-        }
-    )
+    } & ({ readonly blocks?: readonly ZettelTypes.Extension.Entity.Block[] } | { readonly text?: string })
   }
 }

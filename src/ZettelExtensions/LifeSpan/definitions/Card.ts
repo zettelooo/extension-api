@@ -1,27 +1,27 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
-import { ExtensionScope, MutableModel } from '@zettelooo/models'
-import { NavigableStatus } from '../../adopted'
-import { ExtensionLifeSpanRegistrar } from '../../extension-function'
-import { HtmlContent } from '../../HtmlContent'
-import { ExtensionLifeSpanType } from '../types'
+import { Scope } from '../../Scope'
+import { HtmlContent } from '../../types/HtmlContent'
+import { TypeBuilder } from '../TypeBuilder'
+import { Registrar } from '../types'
 
-export type CardRenderedLifeSpan = ExtensionLifeSpanType<
+export type Card = TypeBuilder<
   {
     pageId: Id
     cardId: Id
   },
-  [ExtensionScope.Device, ExtensionScope.User, ExtensionScope.Space, ExtensionScope.Page],
+  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    card: MutableModel.Entity.Card
-    navigableStatus: NavigableStatus
+    card: ZettelTypes.Extension.Entity.Card
     mode: Shared.Mode
   },
   {},
   {
-    contextMenuItems(getter: () => Shared.ContextMenuItems): ExtensionLifeSpanRegistrar
+    contextMenuItems(getter: () => Shared.ContextMenuItems): Registrar
+
     extendedHtmlContent<S = undefined>(
       getter: () => Shared.ExtendedHtmlContent<S>
-    ): ExtensionLifeSpanRegistrar<Shared.ExtendedHtmlContent.Reference<S>>
+    ): Registrar<Shared.ExtendedHtmlContent.Reference<S>>
   }
 >
 

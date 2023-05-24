@@ -1,30 +1,31 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
-import { ExtensionScope, MutableModel } from '@zettelooo/models'
-import { ExtensionLifeSpanRegistrar } from '../../extension-function'
-import { HtmlContent } from '../../HtmlContent'
-import { ExtensionLifeSpanType } from '../types'
+import { Scope } from '../../Scope'
+import { HtmlContent } from '../../types/HtmlContent'
+import { TypeBuilder } from '../TypeBuilder'
+import { Registrar } from '../types'
 
-export type CardBlockRenderedLifeSpan = ExtensionLifeSpanType<
+export type CardBlock = TypeBuilder<
   {
     pageId: Id
     cardId: Id
     blockId: Id
   },
-  [ExtensionScope.Device, ExtensionScope.User, ExtensionScope.Space, ExtensionScope.Page],
+  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    card: MutableModel.Entity.Card
-    block: MutableModel.Block
+    card: ZettelTypes.Extension.Entity.Card
+    block: ZettelTypes.Extension.Entity.Block
     mode: Shared.Mode
   },
   {},
   {
-    displayOptions(getter: () => Shared.DisplayOptions): ExtensionLifeSpanRegistrar<Shared.DisplayOptions.Reference>
-    appendedContent(
-      getter: () => readonly Shared.AppendedContent.Part[]
-    ): ExtensionLifeSpanRegistrar<Shared.AppendedContent.Reference>
+    displayOptions(getter: () => Shared.DisplayOptions): Registrar<Shared.DisplayOptions.Reference>
+
+    appendedContent(getter: () => readonly Shared.AppendedContent.Part[]): Registrar<Shared.AppendedContent.Reference>
+
     appendedHtmlContent<S = undefined>(
       getter: () => Shared.AppendedHtmlContent<S>
-    ): ExtensionLifeSpanRegistrar<Shared.AppendedHtmlContent.Reference<S>>
+    ): Registrar<Shared.AppendedHtmlContent.Reference<S>>
   }
 >
 
