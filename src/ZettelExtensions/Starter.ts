@@ -1,5 +1,6 @@
 import { Id } from '@zettelooo/commons'
 import { LifeSpan } from './LifeSpan'
+import { Exposed } from './LifeSpan/types'
 
 export type Starter = (this: Omit<Starter.Api, 'while'> & { readonly while: Starter.While }, api: Starter.Api) => void
 
@@ -42,7 +43,7 @@ export namespace Starter {
     readonly data: LifeSpan.Data<N>
     readonly access: LifeSpan.Access<N>
     readonly watch: LifeSpan.Watch<N>
-    readonly api: Api
+    readonly exposed: Exposed
     readonly registry: LifeSpan.Registry<N>
     readonly register: LifeSpan.Register<N>
     readonly disposed: boolean
