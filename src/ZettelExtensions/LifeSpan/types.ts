@@ -1,5 +1,6 @@
 import { Id } from '@zettelooo/commons'
 import { Definitions } from './Definitions'
+import { Scope } from '../Scope'
 
 export type Name = keyof Definitions
 
@@ -43,7 +44,13 @@ export interface Register<N extends Name> {
 }
 
 export type Target<N extends Name> = Definitions[N]['target']
-export type Scope<N extends Name> = Definitions[N]['scope']
+export type Scopes<N extends Name> = Definitions[N]['scopes']
 export type Data<N extends Name> = Definitions[N]['data']
 export type Access<N extends Name> = Definitions[N]['access']
 export type Registry<N extends Name> = Definitions[N]['registry']
+
+export type TargetBase = Record<string, string | number | boolean | null>
+export type ScopesBase = readonly Scope[]
+export type DataBase = Record<string, any>
+export type AccessBase = Record<string, (...args: any[]) => any>
+export type RegistryBase = Record<string, (...args: any[]) => Registrar<any>>

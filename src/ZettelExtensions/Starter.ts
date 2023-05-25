@@ -39,7 +39,7 @@ export namespace Starter {
   export interface LifeSpanApi<N extends LifeSpan.Name> {
     readonly target: LifeSpan.Target<N>
     readonly roles: readonly string[]
-    readonly scopes: readonly LifeSpan.Scope<N>[]
+    readonly scopes: LifeSpan.Scopes<N>
     readonly data: LifeSpan.Data<N>
     readonly access: LifeSpan.Access<N>
     readonly watch: LifeSpan.Watch<N>
