@@ -46,8 +46,8 @@ export namespace Shared {
 
   export namespace CreateCard {
     export type CardData = {
+      readonly pageId: string
       readonly color?: string
-      readonly pageId?: string
       readonly sequenceBetween?: {
         readonly previousSequence?: string
         readonly nextSequence?: string
@@ -59,8 +59,8 @@ export namespace Shared {
   export namespace UpdateCard {
     export type CardData = {
       readonly id: string
-      readonly color?: string
       readonly pageId?: string
+      readonly color?: string
       readonly sequenceBetween?: {
         readonly previousSequence?: string
         readonly nextSequence?: string
