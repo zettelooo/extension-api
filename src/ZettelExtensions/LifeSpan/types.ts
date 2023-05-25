@@ -3,7 +3,7 @@ import { Definitions } from './Definitions'
 
 export type Name = keyof Definitions
 
-export type Watch<N extends Name> = WatchData<Definitions[N]['data']>
+export type Watch<N extends Name> = WatchData<Data<N>>
 
 export type WatchData<D> = <S extends (data: D) => any, T = S extends (data: D) => infer R ? R : unknown>(
   selector: (data: D) => T,
@@ -30,7 +30,7 @@ export interface Register<N extends Name> {
   <R = undefined>(
     registrar: Registrar<R>,
     options?: {
-      readonly condition?: (data: Definitions[N]['data']) => any
+      readonly condition?: (data: Data<N>) => any
       readonly initiallyInactive?: boolean
     }
   ): {
@@ -41,3 +41,9 @@ export interface Register<N extends Name> {
     readonly deactivate: () => void
   }
 }
+
+export type Target<N extends Name> = Definitions[N]['target']
+export type Scope<N extends Name> = Definitions[N]['scope']
+export type Data<N extends Name> = Definitions[N]['data']
+export type Access<N extends Name> = Definitions[N]['access']
+export type Registry<N extends Name> = Definitions[N]['registry']

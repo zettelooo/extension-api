@@ -36,14 +36,14 @@ export namespace Starter {
   }
 
   export interface LifeSpanApi<N extends LifeSpan.Name> {
-    readonly target: LifeSpan.Definitions[N]['target']
+    readonly target: LifeSpan.Target<N>
     readonly roles: readonly string[]
-    readonly scopes: readonly LifeSpan.Definitions[N]['scope'][]
-    readonly data: LifeSpan.Definitions[N]['data']
-    readonly access: LifeSpan.Definitions[N]['access']
+    readonly scopes: readonly LifeSpan.Scope<N>[]
+    readonly data: LifeSpan.Data<N>
+    readonly access: LifeSpan.Access<N>
     readonly watch: LifeSpan.Watch<N>
     readonly api: Api
-    readonly registry: LifeSpan.Definitions[N]['registry']
+    readonly registry: LifeSpan.Registry<N>
     readonly register: LifeSpan.Register<N>
     readonly disposed: boolean
 

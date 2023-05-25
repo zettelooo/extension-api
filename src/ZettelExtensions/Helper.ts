@@ -16,7 +16,7 @@ export type Helper<
               [K in Exclude<N, 'api'>]: Omit<Starter.LifeSpanApi<K>, 'while'> & { readonly while: Starter.While }
             }[Exclude<N, 'api'>],
             'watch'
-          > & { readonly watch: LifeSpan.WatchData<LifeSpan.Definitions[Exclude<N, 'api'>]['data']> }),
+          > & { readonly watch: LifeSpan.WatchData<LifeSpan.Data<Exclude<N, 'api'>>> }),
   provided: ('api' extends Exclude<P, LifeSpan.Name> ? { api: Starter.Api } : {}) & {
     [K in Exclude<P, 'api'> as `${K}Api`]: Starter.LifeSpanApi<K>
   },
