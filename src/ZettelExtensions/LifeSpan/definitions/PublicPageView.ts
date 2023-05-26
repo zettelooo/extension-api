@@ -12,9 +12,7 @@ export type PublicPageView = TypeBuilder<
     page: ZettelTypes.Extension.Entity.Page
     cards: readonly ZettelTypes.Extension.Entity.Card[]
   },
-  {
-    getPageName(): string
-  },
+  {},
   {}
 >
 
