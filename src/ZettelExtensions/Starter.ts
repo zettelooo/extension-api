@@ -2,7 +2,7 @@ import { Id } from '@zettelooo/commons'
 import { LifeSpan } from './LifeSpan'
 import { Exposed } from './LifeSpan/types'
 
-export type Starter = (this: Omit<Starter.Api, 'while'> & { readonly while: Starter.While }, api: Starter.Api) => void
+export type Starter = (this: Starter.Api.This, api: Starter.Api) => void
 
 export namespace Starter {
   export interface Api {
@@ -36,6 +36,12 @@ export namespace Starter {
     readonly while: While
   }
 
+  export namespace Api {
+    export interface This extends Api {
+      readonly while: While // Overrides the deprecation warning
+    }
+  }
+
   export interface LifeSpanApi<N extends LifeSpan.Name> {
     readonly target: LifeSpan.Target<N>
     readonly roles: readonly string[]
@@ -52,6 +58,12 @@ export namespace Starter {
     readonly while: While
   }
 
+  export namespace LifeSpanApi {
+    export interface This<N extends LifeSpan.Name> extends LifeSpanApi<N> {
+      readonly while: While // Overrides the deprecation warning
+    }
+  }
+
   export type While = <N extends LifeSpan.Name>(
     name: N,
     affect: While.Affect<N>
@@ -62,7 +74,7 @@ export namespace Starter {
 
   export namespace While {
     export type Affect<N extends LifeSpan.Name> = (
-      this: Omit<LifeSpanApi<N>, 'while'> & { readonly while: While },
+      this: LifeSpanApi.This<N>,
       provided: { [K in N as `${K}Api`]: LifeSpanApi<K> }
     ) => void | (() => void)
   }

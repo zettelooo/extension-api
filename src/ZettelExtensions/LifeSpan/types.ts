@@ -6,11 +6,16 @@ export type Name = keyof Definitions
 
 export type Watch<N extends Name> = WatchData<Data<N>>
 
-export type WatchData<D> = <S extends (data: D) => any, T = S extends (data: D) => infer R ? R : unknown>(
-  selector: (data: D) => T,
-  callback: (newValue: T, oldValue: T) => void,
+export type WatchData<D extends DataBase> = <
+  S extends (data: D) => any,
+  T = S extends (data: D) => infer R ? R : unknown
+>(
+  selector: S,
+  callback: (newValue: T, oldValue?: T) => void,
   options?: {
+    initialCallback?: boolean
     areValuesEqual?: (newValue: T, oldValue: T) => boolean
+    pickDependencies?: (data: D) => D
   }
 ) => Registrar
 

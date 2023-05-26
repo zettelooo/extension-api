@@ -8,12 +8,12 @@ export type Helper<
   R = void
 > = (
   this:
-    | ('api' extends Exclude<N, LifeSpan.Name> ? Omit<Starter.Api, 'while'> & { readonly while: Starter.While } : never)
+    | ('api' extends Exclude<N, LifeSpan.Name> ? Starter.Api.This : never)
     | (Exclude<N, 'api'> extends never
         ? never
         : Omit<
             {
-              [K in Exclude<N, 'api'>]: Omit<Starter.LifeSpanApi<K>, 'while'> & { readonly while: Starter.While }
+              [K in Exclude<N, 'api'>]: Starter.LifeSpanApi.This<K>
             }[Exclude<N, 'api'>],
             'watch'
           > & { readonly watch: LifeSpan.WatchData<LifeSpan.Data<Exclude<N, 'api'>>> }),
