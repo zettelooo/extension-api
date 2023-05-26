@@ -30,16 +30,6 @@ export type PagePanel = TypeBuilder<
 >
 
 export namespace Shared {
-  export type Activator = () => Activator.Result | Promise<Activator.Result>
-
-  export namespace Activator {
-    export type Result = 'activated' | 'not activated'
-
-    export interface Reference {
-      readonly update: (newActivator: Activator) => void
-    }
-  }
-
   export interface Status {
     readonly readonly?: boolean
     readonly hideCardOwners?: boolean
