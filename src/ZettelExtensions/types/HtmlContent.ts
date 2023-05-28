@@ -13,7 +13,9 @@ export interface HtmlContent<S = undefined> {
       containerElement: Element | ShadowRoot
       currentContext: HtmlContent.Context<S>
     }) => {
-      onUpdate?: (provided: { previousContext: HtmlContent.Context<S> }) => HandlerOutput
+      onUpdateClasses?: (provided: { previousClasses: HtmlContent.Context.Classes }) => HandlerOutput
+      onUpdateTheme?: (provided: { previousTheme: HtmlContent.Context.Theme }) => HandlerOutput
+      onUpdateState?: (provided: { previousState: S }) => HandlerOutput
       onCleanUp?: () => void
     }
   }
