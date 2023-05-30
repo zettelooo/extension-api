@@ -17,15 +17,21 @@ export namespace Starter {
       }
       readonly name: string
       readonly description: string
-      readonly avatar: {
-        readonly file?: string
-        readonly dataUrl?: string
-      }
+      readonly avatarUrl?: string
       readonly documentationMarkdownFile?: string
     }
 
-    readonly getFileUrl: (filePath: string) => string
     readonly generateId: () => Id
+    readonly getFileUrl: (
+      options:
+        | {
+            readonly filePath: string
+          }
+        | {
+            readonly fileId: Id
+            readonly preview?: true | {} // TODO: Preview options
+          }
+    ) => string
 
     readonly localStorage: {
       readonly read: () => Promise<any>
