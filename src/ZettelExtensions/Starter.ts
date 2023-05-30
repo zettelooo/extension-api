@@ -73,8 +73,10 @@ export namespace Starter {
     readonly watch: LifeSpan.Watch<N>
     readonly exposed: Exposed
     readonly registry: LifeSpan.Registry<N>
-    readonly register: LifeSpan.Register<N>
     readonly disposed: boolean
+
+    /** @deprecated This method is unsafe, use `this.register()` instead. */
+    readonly register: LifeSpan.Register<N>
 
     /** @deprecated This method is unsafe, use `this.while()` instead. */
     readonly while: While
@@ -82,6 +84,7 @@ export namespace Starter {
 
   export namespace LifeSpanApi {
     export interface This<N extends LifeSpan.Name> extends LifeSpanApi<N> {
+      readonly register: LifeSpan.Register<N> // Overrides the deprecation warning
       readonly while: While // Overrides the deprecation warning
     }
   }
