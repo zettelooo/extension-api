@@ -28,8 +28,24 @@ export namespace Starter {
             readonly filePath: string
           }
         | {
+            readonly avatarFileId: Id
+            readonly size: number
+          }
+        | {
             readonly fileId: Id
-            readonly preview?: true | {} // TODO: Preview options
+            readonly fileName: string
+            readonly previewOptions?:
+              | {
+                  readonly width: number
+                }
+              | {
+                  readonly height: number
+                }
+              | {
+                  readonly width: number
+                  readonly height: number
+                  readonly objectFit: 'contain' | 'cover'
+                }
           }
     ) => string
 
