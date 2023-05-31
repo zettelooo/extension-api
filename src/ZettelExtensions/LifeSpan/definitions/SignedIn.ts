@@ -7,7 +7,7 @@ export type SignedIn = TypeBuilder<
   {},
   [Scope.Device, Scope.User],
   {
-    account: ZettelTypes.Extension.Entity.Account
+    account: ZettelTypes.Extension.Entity.User
     accountPagesOrdered: readonly ZettelTypes.Extension.Entity.Page[]
     accountEditablePagesOrdered: readonly ZettelTypes.Extension.Entity.Page[]
     accountCardsOrdered: readonly ZettelTypes.Extension.Entity.Card[]
