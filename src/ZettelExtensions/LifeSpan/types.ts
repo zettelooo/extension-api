@@ -4,7 +4,18 @@ import { Scope } from '../Scope'
 
 export type Name = keyof Definitions
 
-export type Watch<N extends Name> = WatchData<Data<N>>
+export type Watch<N extends Name> = <
+  S extends (data: Data<N>) => any,
+  T = S extends (data: Data<N>) => infer R ? R : unknown
+>(
+  selector: S,
+  callback: (newValue: T, oldValue?: T) => void,
+  options?: {
+    initialCallback?: boolean
+    areValuesEqual?: (newValue: T, oldValue: T) => boolean
+    pickDependencies?: (data: Data<N>) => Data<N>
+  }
+) => Registrar
 
 export type WatchData<D extends DataBase> = <
   S extends (data: D) => any,
