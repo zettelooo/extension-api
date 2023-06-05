@@ -41,9 +41,9 @@ export type Activated = TypeBuilder<
 
     copyTextToClipboard(text: string): void
 
-    getPublicPageUrl(pageId: Id): string
+    getPagePublicUrl(pageId: Id): string
 
-    getPublicCardUrl(cardId: Id): string
+    getCardPublicUrl(cardId: Id): string
   },
   {
     dialog<S = undefined>(getter: () => Shared.Dialog<S>): Registrar<Shared.Dialog.Reference<S>>
