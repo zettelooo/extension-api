@@ -13,9 +13,11 @@ export type BlocksComposer = TypeBuilder<
   {
     reset(): void
     isEmpty(): boolean
-    getBlocks(): readonly ZettelTypes.Extension.Entity.Block[]
-    setBlocks(blocks: readonly ZettelTypes.Extension.Entity.Block[]): void
-    insertBlocks(blocks: readonly ZettelTypes.Extension.Entity.Block[]): void
+    getBlocks<BD = any>(): readonly ZettelTypes.Extension.Entity.Block<ZettelTypes.Model.Block.Type, BD>[]
+    setBlocks<BD = any>(blocks: readonly ZettelTypes.Extension.Entity.Block<ZettelTypes.Model.Block.Type, BD>[]): void
+    insertBlocks<BD = any>(
+      blocks: readonly ZettelTypes.Extension.Entity.Block<ZettelTypes.Model.Block.Type, BD>[]
+    ): void
     disabled(disabled?: boolean): boolean
     addAttachmentFiles(files: readonly ZettelTypes.Model.Block.Attachment.File[]): void
     addFiles(files: readonly File[] | FileList | DataTransferItemList): Promise<void>

@@ -13,51 +13,60 @@ export type SignedIn = TypeBuilder<
     accountCardsOrdered: readonly ZettelTypes.Extension.Entity.Card[]
   },
   {
-    updatePage(updates: Shared.UpdatePage.PageData): Promise<void>
+    updatePage<PD = any>(updates: Shared.UpdatePage.PageData<PD>): Promise<void>
 
     getCardPreviewText(cardId: Id): Promise<string>
 
-    createCard(card: Shared.CreateCard.CardData): Promise<ZettelTypes.Extension.Entity.Card>
+    createCard<CD = any, BD = any>(
+      card: Shared.CreateCard.CardData<CD, BD>
+    ): Promise<ZettelTypes.Extension.Entity.Card<CD, BD>>
 
-    updateCard(updates: Shared.UpdateCard.CardData): Promise<void>
+    updateCard<CD = any, BD = any>(updates: Shared.UpdateCard.CardData<CD, BD>): Promise<void>
 
     /** @throws If the page is not found for, or not editable by the user. */
-    setPageExtensionData<T>(pageId: Id, extensionData: T): Promise<void>
+    setPageExtensionData<PD = any>(pageId: Id, extensionData: PD): Promise<void>
 
     /** @throws If the card is not found for, or not editable by the user. */
-    setCardExtensionData<T>(cardId: Id, extensionData: T): Promise<void>
+    setCardExtensionData<CD = any>(cardId: Id, extensionData: CD): Promise<void>
 
     /** @throws If the card is not found for, or not editable by the user. */
-    setCardBlockExtensionData<T>(cardId: Id, blockId: Id, extensionData: T): Promise<void>
+    setCardBlockExtensionData<BD = any>(cardId: Id, blockId: Id, extensionData: BD): Promise<void>
   },
   {}
 >
 
 export namespace Shared {
   export namespace UpdatePage {
-    export type PageData = Pick<ZettelTypes.Extension.Entity.Page, 'id'> &
+    export type PageData<PD = any> = Pick<ZettelTypes.Extension.Entity.Page<PD>, 'id'> &
       Partial<
         Pick<
-          ZettelTypes.Extension.Entity.Page,
-          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'public'
+          ZettelTypes.Extension.Entity.Page<PD>,
+          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'public' | 'extensionData'
         >
       >
   }
 
   export namespace CreateCard {
-    export type CardData = {
+    export type CardData<CD = any, BD = any> = {
       readonly pageId: string
       readonly color?: string
       readonly sequenceBetween?: {
         readonly previousSequence?: string
         readonly nextSequence?: string
       }
-      readonly extensionData?: any
-    } & ({ readonly blocks: readonly ZettelTypes.Extension.Entity.Block[] } | { readonly text: string })
+      readonly extensionData?: CD
+    } & (
+      | {
+          readonly blocks: readonly ZettelTypes.Extension.Entity.Block<ZettelTypes.Model.Block.Type, BD>[]
+        }
+      | {
+          readonly text: string
+        }
+    )
   }
 
   export namespace UpdateCard {
-    export type CardData = {
+    export type CardData<CD = any, BD = any> = {
       readonly id: string
       readonly pageId?: string
       readonly color?: string
@@ -65,7 +74,14 @@ export namespace Shared {
         readonly previousSequence?: string
         readonly nextSequence?: string
       }
-      readonly extensionData?: any
-    } & ({ readonly blocks?: readonly ZettelTypes.Extension.Entity.Block[] } | { readonly text?: string })
+      readonly extensionData?: CD
+    } & (
+      | {
+          readonly blocks?: readonly ZettelTypes.Extension.Entity.Block<ZettelTypes.Model.Block.Type, BD>[]
+        }
+      | {
+          readonly text?: string
+        }
+    )
   }
 }
