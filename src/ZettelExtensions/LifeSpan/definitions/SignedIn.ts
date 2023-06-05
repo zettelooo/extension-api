@@ -41,7 +41,7 @@ export namespace Shared {
       Partial<
         Pick<
           ZettelTypes.Extension.Entity.Page<PD>,
-          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'public' | 'extensionData'
+          'name' | 'description' | 'iconEmoji' | 'color' | 'avatarFileId' | 'view' | 'public'
         >
       >
   }
