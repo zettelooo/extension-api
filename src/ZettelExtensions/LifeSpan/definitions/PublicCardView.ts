@@ -3,13 +3,13 @@ import { Id } from '@zettelooo/commons'
 import { Scope } from '../../Scope'
 import { TypeBuilder } from '../TypeBuilder'
 
-export type PublicCardView = TypeBuilder<
+export type PublicCardView<PD = any, CD = any> = TypeBuilder<
   {
     cardId: Id
   },
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    card: ZettelTypes.Extension.Entity.Card
+    card: ZettelTypes.Extension.Model.Card<CD>
   },
   {},
   {}

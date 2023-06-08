@@ -2,7 +2,7 @@ import { Id } from '@zettelooo/commons'
 import { Scope } from '../../Scope'
 import { TypeBuilder } from '../TypeBuilder'
 
-export type MainView = TypeBuilder<
+export type MainView<PD = any, CD = any> = TypeBuilder<
   {},
   [Scope.Device, Scope.User],
   {

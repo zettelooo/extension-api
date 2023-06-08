@@ -5,15 +5,15 @@ import { HtmlContent } from '../../types/HtmlContent'
 import { TypeBuilder } from '../TypeBuilder'
 import { Registrar } from '../types'
 
-export type PagePanel = TypeBuilder<
+export type PagePanel<PD = any, CD = any> = TypeBuilder<
   {
     pageId: Id
   },
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    page: ZettelTypes.Extension.Entity.Page
-    pageMembers: readonly ZettelTypes.Extension.Entity.PageMember[]
-    cards: readonly ZettelTypes.Extension.Entity.Card[]
+    page: ZettelTypes.Extension.Model.Page<PD>
+    pageMembers: readonly ZettelTypes.Extension.Model.PageMember[]
+    cards: readonly ZettelTypes.Extension.Model.Card<CD>[]
   },
   {
     // pasteTextIntoComposer(text: string, html?: string): { success: boolean }
@@ -33,7 +33,7 @@ export namespace Shared {
   export interface Status {
     readonly readonly?: boolean
     readonly hideCardOwners?: boolean
-    readonly showDefaultComposer?: boolean
+    readonly hideDefaultComposer?: boolean
   }
 
   export namespace Status {

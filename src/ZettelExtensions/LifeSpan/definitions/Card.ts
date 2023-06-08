@@ -5,15 +5,15 @@ import { HtmlContent } from '../../types/HtmlContent'
 import { TypeBuilder } from '../TypeBuilder'
 import { Registrar } from '../types'
 
-export type Card = TypeBuilder<
+export type Card<PD = any, CD = any> = TypeBuilder<
   {
     pageId: Id
     cardId: Id
   },
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    card: ZettelTypes.Extension.Entity.Card
-    mode: Shared.Mode
+    card: ZettelTypes.Extension.Model.Card<CD>
+    mode: 'full' | 'compact'
   },
   {},
   {
@@ -26,11 +26,6 @@ export type Card = TypeBuilder<
 >
 
 export namespace Shared {
-  export enum Mode {
-    Full = 'FULL',
-    Compact = 'COMPACT',
-  }
-
   export type ContextMenuItems = readonly ContextMenuItems.ContextMenuItem[]
 
   export namespace ContextMenuItems {
@@ -41,8 +36,8 @@ export namespace Shared {
   }
 
   export interface ExtendedHtmlContent<S = undefined> extends HtmlContent<S> {
-    readonly position: 'top' | 'bottom'
-    readonly hidden?: boolean
+    readonly position?: 'bottom' | 'top'
+    readonly originalContent?: 'no preferences' | 'must show' | 'better show' | 'better hide' | 'must hide'
   }
 
   export namespace ExtendedHtmlContent {

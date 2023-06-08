@@ -4,29 +4,16 @@ import { Scope } from '../Scope'
 
 export type Name = keyof Definitions
 
-export type Watch<N extends Name> = <
-  S extends (data: Data<N>) => any,
-  T = S extends (data: Data<N>) => infer R ? R : unknown
+export type Watch<N extends Name, PD = any, CD = any> = <
+  S extends (data: Data<N, PD, CD>) => any,
+  T = S extends (data: Data<N, PD, CD>) => infer R ? R : unknown
 >(
   selector: S,
   callback: (newValue: T, oldValue?: T) => void,
   options?: {
     initialCallback?: boolean
     areValuesEqual?: (newValue: T, oldValue: T) => boolean
-    pickDependencies?: (data: Data<N>) => Data<N>
-  }
-) => Registrar
-
-export type WatchData<D extends DataBase> = <
-  S extends (data: D) => any,
-  T = S extends (data: D) => infer R ? R : unknown
->(
-  selector: S,
-  callback: (newValue: T, oldValue?: T) => void,
-  options?: {
-    initialCallback?: boolean
-    areValuesEqual?: (newValue: T, oldValue: T) => boolean
-    pickDependencies?: (data: D) => D
+    pickDependencies?: (data: Data<N, PD, CD>) => Data<N, PD, CD>
   }
 ) => Registrar
 
@@ -43,11 +30,11 @@ export type Registrar<R = undefined> = R extends undefined
   ? () => () => void
   : [() => () => void, { readonly current?: R }]
 
-export interface Register<N extends Name> {
+export interface Register<N extends Name, PD = any, CD = any> {
   <R = undefined>(
     registrar: Registrar<R>,
     options?: {
-      readonly condition?: (data: Data<N>) => any
+      readonly condition?: (data: Data<N, PD, CD>) => any
       readonly initiallyInactive?: boolean
     }
   ): {
@@ -59,11 +46,11 @@ export interface Register<N extends Name> {
   }
 }
 
-export type Target<N extends Name> = Definitions[N]['target']
-export type Scopes<N extends Name> = Definitions[N]['scopes']
-export type Data<N extends Name> = Definitions[N]['data']
-export type Access<N extends Name> = Definitions[N]['access']
-export type Registry<N extends Name> = Definitions[N]['registry']
+export type Target<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['target']
+export type Scopes<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['scopes']
+export type Data<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['data']
+export type Access<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['access']
+export type Registry<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['registry']
 
 export type TargetBase = Record<string, string | number | boolean | null>
 export type ScopesBase = readonly Scope[]

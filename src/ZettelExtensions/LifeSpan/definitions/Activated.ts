@@ -6,7 +6,7 @@ import { RenderedElement } from '../../types/RenderedElement'
 import { TypeBuilder } from '../TypeBuilder'
 import { Registrar } from '../types'
 
-export type Activated = TypeBuilder<
+export type Activated<PD = any, CD = any> = TypeBuilder<
   {},
   [Scope.Device],
   {
@@ -55,12 +55,12 @@ export type Activated = TypeBuilder<
     renderedSelect(getter: () => Shared.RenderedSelect): Registrar<Shared.RenderedSelect.Reference>
 
     renderedCardViewerFull(
-      getter: () => Shared.RenderedCardViewerFull
-    ): Registrar<Shared.RenderedCardViewerFull.Reference>
+      getter: () => Shared.RenderedCardViewerFull<PD, CD>
+    ): Registrar<Shared.RenderedCardViewerFull.Reference<PD, CD>>
 
     renderedCardViewerCompact(
-      getter: () => Shared.RenderedCardViewerCompact
-    ): Registrar<Shared.RenderedCardViewerCompact.Reference>
+      getter: () => Shared.RenderedCardViewerCompact<PD, CD>
+    ): Registrar<Shared.RenderedCardViewerCompact.Reference<PD, CD>>
   }
 >
 
@@ -218,41 +218,41 @@ export namespace Shared {
     }
   }
 
-  export interface RenderedCardViewerFull extends RenderedElement {
-    readonly card: ZettelTypes.Extension.Entity.Card
+  export interface RenderedCardViewerFull<PD = any, CD = any> extends RenderedElement {
+    readonly card: ZettelTypes.Extension.Model.Card<CD>
     readonly readonly?: boolean
     readonly scale?: number
     readonly previewHeight: number
     readonly maximumHeight?: number
     readonly hideOwner?: boolean
-    readonly displayPage?: ZettelTypes.Model.Page
+    readonly displayPage?: ZettelTypes.Extension.Model.Page<PD>
     readonly showTimestamp?: boolean
     readonly isHighlighted?: boolean
   }
 
   export namespace RenderedCardViewerFull {
-    export interface Reference {
+    export interface Reference<PD = any, CD = any> {
       readonly update: (
         updates:
-          | Partial<RenderedCardViewerFull>
-          | ((previous: RenderedCardViewerFull) => Partial<RenderedCardViewerFull>)
+          | Partial<RenderedCardViewerFull<PD, CD>>
+          | ((previous: RenderedCardViewerFull<PD, CD>) => Partial<RenderedCardViewerFull<PD, CD>>)
       ) => void
     }
   }
 
-  export interface RenderedCardViewerCompact extends RenderedElement {
-    readonly card: ZettelTypes.Extension.Entity.Card
+  export interface RenderedCardViewerCompact<PD = any, CD = any> extends RenderedElement {
+    readonly card: ZettelTypes.Extension.Model.Card<CD>
     readonly readonly?: boolean
     readonly scale?: number
     readonly previewWidth: number
   }
 
   export namespace RenderedCardViewerCompact {
-    export interface Reference {
+    export interface Reference<PD = any, CD = any> {
       readonly update: (
         updates:
-          | Partial<RenderedCardViewerCompact>
-          | ((previous: RenderedCardViewerCompact) => Partial<RenderedCardViewerCompact>)
+          | Partial<RenderedCardViewerCompact<PD, CD>>
+          | ((previous: RenderedCardViewerCompact<PD, CD>) => Partial<RenderedCardViewerCompact<PD, CD>>)
       ) => void
     }
   }
