@@ -54,12 +54,14 @@ export namespace Shared {
   }
 
   export interface Message<S = undefined> extends HtmlContent<S> {
-    readonly variant?: 'success' | 'information' | 'warning' | 'error'
+    readonly variant?: Message.Variant
     readonly onClose?: () => void | 'prevent'
     readonly hidden?: boolean
   }
 
   export namespace Message {
+    export type Variant = 'success' | 'information' | 'warning' | 'error'
+
     export interface Reference<S = undefined> extends HtmlContent.Reference<S> {
       readonly update: (updates: Partial<Message<S>> | ((previous: Message<S>) => Partial<Message<S>>)) => void
     }

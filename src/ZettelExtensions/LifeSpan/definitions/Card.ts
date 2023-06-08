@@ -13,7 +13,7 @@ export type Card<PD = any, CD = any> = TypeBuilder<
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
     card: ZettelTypes.Extension.Model.Card<CD>
-    mode: 'full' | 'compact'
+    mode: Shared.Mode
   },
   {},
   {
@@ -26,6 +26,8 @@ export type Card<PD = any, CD = any> = TypeBuilder<
 >
 
 export namespace Shared {
+  export type Mode = 'full' | 'compact'
+
   export type ContextMenuItems = readonly ContextMenuItems.ContextMenuItem[]
 
   export namespace ContextMenuItems {
@@ -36,11 +38,14 @@ export namespace Shared {
   }
 
   export interface ExtendedHtmlContent<S = undefined> extends HtmlContent<S> {
-    readonly position?: 'bottom' | 'top'
-    readonly originalContent?: 'no preferences' | 'must show' | 'better show' | 'better hide' | 'must hide'
+    readonly position?: ExtendedHtmlContent.Position
+    readonly originalContent?: ExtendedHtmlContent.OriginalContent
   }
 
   export namespace ExtendedHtmlContent {
+    export type Position = 'bottom' | 'top'
+    export type OriginalContent = 'no preferences' | 'must show' | 'better show' | 'better hide' | 'must hide'
+
     export interface Reference<S = undefined> extends HtmlContent.Reference<S> {
       readonly update: (
         updates:

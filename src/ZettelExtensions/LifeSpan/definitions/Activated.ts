@@ -15,14 +15,7 @@ export type Activated<PD = any, CD = any> = TypeBuilder<
     language: string
   },
   {
-    showMessage(
-      title: string,
-      message: string,
-      options?: {
-        variant?: 'success' | 'information' | 'warning' | 'error'
-        onClick?(): void
-      }
-    ): void
+    showMessage(title: string, message: string, options?: Shared.ShowMessage.Options): void
 
     confirm(options?: Shared.Confirm.Options): Promise<boolean>
 
@@ -65,6 +58,17 @@ export type Activated<PD = any, CD = any> = TypeBuilder<
 >
 
 export namespace Shared {
+  export namespace ShowMessage {
+    export interface Options {
+      readonly variant?: Options.Variant
+      readonly onClick?: () => void
+    }
+
+    export namespace Options {
+      export type Variant = 'success' | 'information' | 'warning' | 'error'
+    }
+  }
+
   export namespace Confirm {
     export interface Options {
       readonly title?: string
