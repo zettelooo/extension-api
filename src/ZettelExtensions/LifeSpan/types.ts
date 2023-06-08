@@ -1,4 +1,4 @@
-import { Id } from '@zettelooo/commons'
+import { Id, ReadonlyRecord } from '@zettelooo/commons'
 import { Definitions } from './Definitions'
 import { Scope } from '../Scope'
 
@@ -13,7 +13,7 @@ export type Watch<N extends Name, PD = any, CD = any> = <
   options?: {
     initialCallback?: boolean
     areValuesEqual?: (newValue: T, oldValue: T) => boolean
-    pickDependencies?: (data: Data<N, PD, CD>) => Data<N, PD, CD>
+    pickDependencies?: (data: ReadonlyRecord<keyof Data<N, PD, CD>, Data<N, PD, CD>>) => any
   }
 ) => Registrar
 
