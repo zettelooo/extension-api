@@ -224,11 +224,8 @@ export namespace Shared {
 
   export interface RenderedCardViewerFull<PD = any, CD = any> extends RenderedElement {
     readonly card: ZettelTypes.Extension.Model.Card<CD>
-    readonly readonly?: boolean
-    readonly scale?: number
     readonly previewHeight: number
-    readonly maximumHeight?: number
-    readonly hideOwner?: boolean
+    readonly showOwner?: boolean
     readonly displayPage?: ZettelTypes.Extension.Model.Page<PD>
     readonly showTimestamp?: boolean
     readonly isHighlighted?: boolean
@@ -246,8 +243,6 @@ export namespace Shared {
 
   export interface RenderedCardViewerCompact<PD = any, CD = any> extends RenderedElement {
     readonly card: ZettelTypes.Extension.Model.Card<CD>
-    readonly readonly?: boolean
-    readonly scale?: number
     readonly previewWidth: number
   }
 
