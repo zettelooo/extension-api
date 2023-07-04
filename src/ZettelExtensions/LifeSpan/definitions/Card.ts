@@ -5,14 +5,14 @@ import { HtmlContent } from '../../types/HtmlContent'
 import { TypeBuilder } from '../TypeBuilder'
 import { Registrar } from '../types'
 
-export type Card<PD = any, CD = any> = TypeBuilder<
+export type Card<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBuilder<
   {
     pageId: Id
     cardId: Id
   },
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    card: ZettelTypes.Extension.Model.Card<CD>
+    card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
     mode: Shared.Mode
   },
   {},

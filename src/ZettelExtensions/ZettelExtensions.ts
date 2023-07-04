@@ -1,6 +1,8 @@
-export * from './Starter'
-export * from './WindowWithStarter'
+export * from './ExtendedWindow'
 
+export * from './Starter'
+export * from './CardData'
+export * from './Services'
 export * from './Helper'
 
 export * from './LifeSpan'

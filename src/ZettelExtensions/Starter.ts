@@ -1,10 +1,14 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
 import { LifeSpan } from './LifeSpan'
 
-export type Starter<PD = any, CD = any> = (this: Starter.Api.This<PD, CD>, api: Starter.Api<PD, CD>) => void
+export type Starter<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = (
+  this: Starter.Api.This<D>,
+  api: Starter.Api<D>
+) => void
 
 export namespace Starter {
-  export interface Api<PD = any, CD = any> {
+  export interface Api<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
     readonly coreVersion: string
     readonly header: {
       readonly id: Id
@@ -54,52 +58,53 @@ export namespace Starter {
     }
 
     /** @deprecated This method is unsafe, use `this.while()` instead. */
-    readonly while: While<PD, CD>
+    readonly while: While<D>
   }
 
   export namespace Api {
-    export interface This<PD = any, CD = any> extends Api<PD, CD> {
-      readonly while: While<PD, CD> // Overrides the deprecation warning
+    export interface This<D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends Api<D> {
+      readonly while: While<D> // Overrides the deprecation warning
     }
   }
 
-  export interface LifeSpanApi<N extends LifeSpan.Name, PD = any, CD = any> {
-    readonly target: LifeSpan.Target<N, PD, CD>
+  export interface LifeSpanApi<N extends LifeSpan.Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
+    readonly target: LifeSpan.Target<N, D>
     readonly roles: readonly string[]
-    readonly scopes: LifeSpan.Scopes<N, PD, CD>
-    readonly data: LifeSpan.Data<N, PD, CD>
-    readonly access: LifeSpan.Access<N, PD, CD>
-    readonly watch: LifeSpan.Watch<N, PD, CD>
+    readonly scopes: LifeSpan.Scopes<N, D>
+    readonly data: LifeSpan.Data<N, D>
+    readonly access: LifeSpan.Access<N, D>
+    readonly watch: LifeSpan.Watch<N, D>
     readonly exposed: LifeSpan.Exposed
-    readonly registry: LifeSpan.Registry<N, PD, CD>
+    readonly registry: LifeSpan.Registry<N, D>
     readonly disposed: boolean
 
     /** @deprecated This method is unsafe, use `this.register()` instead. */
-    readonly register: LifeSpan.Register<N, PD, CD>
+    readonly register: LifeSpan.Register<N, D>
 
     /** @deprecated This method is unsafe, use `this.while()` instead. */
-    readonly while: While<PD, CD>
+    readonly while: While<D>
   }
 
   export namespace LifeSpanApi {
-    export interface This<N extends LifeSpan.Name, PD = any, CD = any> extends LifeSpanApi<N, PD, CD> {
-      readonly register: LifeSpan.Register<N, PD, CD> // Overrides the deprecation warning
-      readonly while: While<PD, CD> // Overrides the deprecation warning
+    export interface This<N extends LifeSpan.Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
+      extends LifeSpanApi<N, D> {
+      readonly register: LifeSpan.Register<N, D> // Overrides the deprecation warning
+      readonly while: While<D> // Overrides the deprecation warning
     }
   }
 
-  export type While<PD = any, CD = any> = <N extends LifeSpan.Name>(
+  export type While<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = <N extends LifeSpan.Name>(
     name: N,
-    affect: While.Affect<N, PD, CD>
+    affect: While.Affect<N, D>
   ) => {
     readonly isFinished: boolean
     finish(): void
   }
 
   export namespace While {
-    export type Affect<N extends LifeSpan.Name, PD = any, CD = any> = (
-      this: LifeSpanApi.This<N, PD, CD>,
-      provided: { [K in N as `${K}Api`]: LifeSpanApi<K, PD, CD> }
+    export type Affect<N extends LifeSpan.Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = (
+      this: LifeSpanApi.This<N, D>,
+      provided: { [K in N as `${K}Api`]: LifeSpanApi<K, D> }
     ) => void | (() => void)
   }
 }

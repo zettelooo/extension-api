@@ -1,8 +1,9 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id } from '@zettelooo/commons'
 import { Scope } from '../../Scope'
 import { TypeBuilder } from '../TypeBuilder'
 
-export type MainView<PD = any, CD = any> = TypeBuilder<
+export type MainView<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBuilder<
   {},
   [Scope.Device, Scope.User],
   {

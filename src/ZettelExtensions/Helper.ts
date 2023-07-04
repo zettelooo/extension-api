@@ -1,3 +1,4 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { LifeSpan } from './LifeSpan'
 import { Starter } from './Starter'
 
@@ -6,18 +7,22 @@ export type Helper<
   P extends LifeSpan.Name | 'api' = N,
   A extends readonly any[] = [],
   R = void,
-  PD = any,
-  CD = any
+  D extends ZettelTypes.Data = ZettelTypes.Data.Default
 > = (
-  this:
-    | ('api' extends Exclude<N, LifeSpan.Name> ? Starter.Api.This<PD, CD> : never)
-    | (Exclude<N, 'api'> extends never
-        ? never
-        : {
-            [K in Exclude<N, 'api'>]: Starter.LifeSpanApi.This<K, PD, CD>
-          }[Exclude<N, 'api'>]),
-  provided: ('api' extends Exclude<P, LifeSpan.Name> ? { readonly api: Starter.Api<PD, CD> } : {}) & {
-    readonly [K in Exclude<P, 'api'> as `${K}Api`]: Starter.LifeSpanApi<K, PD, CD>
+  this: ('api' extends Exclude<N, LifeSpan.Name> ? Starter.Api.This<D> : never) | Helper.LifeSpanApi<Exclude<N, 'api'>>,
+  provided: ('api' extends Exclude<P, LifeSpan.Name> ? { readonly api: Starter.Api<D> } : {}) & {
+    readonly [K in Exclude<P, 'api'> as `${K}Api`]: Starter.LifeSpanApi<K, D>
   },
   ...args: A
 ) => R
+
+export namespace Helper {
+  export type LifeSpanApi<
+    N extends LifeSpan.Name,
+    D extends ZettelTypes.Data = ZettelTypes.Data.Default
+  > = N extends never
+    ? never
+    : {
+        [K in N]: Starter.LifeSpanApi.This<K, D>
+      }[N]
+}

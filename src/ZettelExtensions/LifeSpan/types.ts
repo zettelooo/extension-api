@@ -1,19 +1,20 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Id, ReadonlyRecord } from '@zettelooo/commons'
-import { Definitions } from './Definitions'
 import { Scope } from '../Scope'
+import { Definitions } from './Definitions'
 
 export type Name = keyof Definitions
 
-export type Watch<N extends Name, PD = any, CD = any> = <
-  S extends (data: Data<N, PD, CD>) => any,
-  T = S extends (data: Data<N, PD, CD>) => infer R ? R : unknown
+export type Watch<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = <
+  S extends (data: Data<N, D>) => any,
+  T = S extends (data: Data<N, D>) => infer R ? R : unknown
 >(
   selector: S,
   callback: (newValue: T, oldValue?: T) => void,
   options?: {
     initialCallback?: boolean
     areValuesEqual?: (newValue: T, oldValue: T) => boolean
-    pickDependencies?: (data: ReadonlyRecord<keyof Data<N, PD, CD>, Data<N, PD, CD>>) => any
+    pickDependencies?: (data: ReadonlyRecord<keyof Data<N, D>, Data<N, D>>) => any
   }
 ) => Registrar
 
@@ -30,11 +31,11 @@ export type Registrar<R = undefined> = R extends undefined
   ? () => () => void
   : [() => () => void, { readonly current?: R }]
 
-export interface Register<N extends Name, PD = any, CD = any> {
+export interface Register<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
   <R = undefined>(
     registrar: Registrar<R>,
     options?: {
-      readonly condition?: (data: Data<N, PD, CD>) => any
+      readonly condition?: (data: Data<N, D>) => any
       readonly initiallyInactive?: boolean
     }
   ): {
@@ -46,11 +47,14 @@ export interface Register<N extends Name, PD = any, CD = any> {
   }
 }
 
-export type Target<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['target']
-export type Scopes<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['scopes']
-export type Data<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['data']
-export type Access<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['access']
-export type Registry<N extends Name, PD = any, CD = any> = Definitions<PD, CD>[N]['registry']
+export type Target<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Definitions<D>[N]['target']
+export type Scopes<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Definitions<D>[N]['scopes']
+export type Data<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Definitions<D>[N]['data']
+export type Access<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Definitions<D>[N]['access']
+export type Registry<
+  N extends Name,
+  D extends ZettelTypes.Data = ZettelTypes.Data.Default
+> = Definitions<D>[N]['registry']
 
 export type TargetBase = Record<string, string | number | boolean | null>
 export type ScopesBase = readonly Scope[]

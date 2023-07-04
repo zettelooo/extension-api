@@ -5,43 +5,38 @@ import { HtmlContent } from '../../types/HtmlContent'
 import { TypeBuilder } from '../TypeBuilder'
 import { Registrar } from '../types'
 
-export type PagePanel<PD = any, CD = any> = TypeBuilder<
+export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBuilder<
   {
     pageId: Id
   },
   [Scope.Device, Scope.User, Scope.Space, Scope.Page],
   {
-    page: ZettelTypes.Extension.Model.Page<PD>
-    pageMembers: readonly ZettelTypes.Extension.Model.PageMember[]
-    cards: readonly ZettelTypes.Extension.Model.Card<CD>[]
+    page: ZettelTypes.Model.Page<D['pagePrivate']>
+    cards: readonly ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>[]
   },
   {
-    // pasteTextIntoComposer(text: string, html?: string): { success: boolean }
+    consumeService(name: string): ((requestData: any) => Promise<any>) | null
   },
   {
-    status(getter: () => Shared.Status): Registrar<Shared.Status.Reference>
+    provideService(name: string, service: (requestData: any) => any | Promise<any>): Registrar
+
     menuItem(getter: () => Shared.MenuItem): Registrar<Shared.MenuItem.Reference>
+
     message<S = undefined>(getter: () => Shared.Message<S>): Registrar<Shared.Message.Reference<S>>
+
     loadingIndicator(getter: () => string): Registrar
-    composer<S = undefined>(getter: () => Shared.Composer<S>): Registrar<Shared.Composer.Reference<S>>
+
+    composerPart<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>(
+      getter: () => Shared.ComposerPart<S, D>
+    ): Registrar<Shared.ComposerPart.Reference<S, D>>
+
     quickAction(getter: () => Shared.QuickAction): Registrar<Shared.QuickAction.Reference>
-    commandLinePromptInput(getter: () => Shared.CommandLinePromptInput): Registrar
+
+    // commandLinePromptInput(getter: () => Shared.CommandLinePromptInput): Registrar
   }
 >
 
 export namespace Shared {
-  export interface Status {
-    readonly readonly?: boolean
-    readonly hideCardOwners?: boolean
-    readonly hideDefaultComposer?: boolean
-  }
-
-  export namespace Status {
-    export interface Reference {
-      readonly update: (updates: Partial<Status> | ((previous: Status) => Partial<Status>)) => void
-    }
-  }
-
   export interface MenuItem {
     readonly title: string
     handler(): void
@@ -67,13 +62,24 @@ export namespace Shared {
     }
   }
 
-  export interface Composer<S = undefined> extends HtmlContent<S> {
-    readonly hidden?: boolean
+  export interface ComposerPart<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
+    extends HtmlContent<S> {
+    readonly position?: 'bottom' | 'top'
+    readonly formatState: (data: ComposerPart.Data<D>) => S
+    readonly parseState: (state: S, previousData?: ComposerPart.Data<D>) => ComposerPart.Data<D>
   }
 
-  export namespace Composer {
-    export interface Reference<S = undefined> extends HtmlContent.Reference<S> {
-      readonly update: (updates: Partial<Composer<S>> | ((previous: Composer<S>) => Partial<Composer<S>>)) => void
+  export namespace ComposerPart {
+    export type Data<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Pick<
+      ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>,
+      'publicData' | 'privateData'
+    >
+
+    export interface Reference<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
+      extends HtmlContent.Reference<S> {
+      readonly update: (
+        updates: Partial<ComposerPart<S, D>> | ((previous: ComposerPart<S, D>) => Partial<ComposerPart<S, D>>)
+      ) => void
     }
   }
 
@@ -100,12 +106,12 @@ export namespace Shared {
     }
   }
 
-  export interface CommandLinePromptInput {
-    readonly prompt: string
-    readonly placeholder?: string
-    readonly initialValue?: string
-    readonly required?: boolean
-    readonly onCancel?: () => void
-    readonly onSubmit?: (value: string) => void
-  }
+  // export interface CommandLinePromptInput {
+  //   readonly prompt: string
+  //   readonly placeholder?: string
+  //   readonly initialValue?: string
+  //   readonly required?: boolean
+  //   readonly onCancel?: () => void
+  //   readonly onSubmit?: (value: string) => void
+  // }
 }

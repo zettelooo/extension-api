@@ -1,6 +1,6 @@
 export { Shared as Activated } from './definitions/Activated'
 export { Shared as SignedIn } from './definitions/SignedIn'
-// export { Shared as SignedOut } from './definitions/SignedOut'
+export { Shared as SignedOut } from './definitions/SignedOut'
 export { Shared as MainView } from './definitions/MainView'
 export { Shared as PagePanel } from './definitions/PagePanel'
 export { Shared as Card } from './definitions/Card'

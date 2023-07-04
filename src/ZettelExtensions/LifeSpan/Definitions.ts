@@ -1,3 +1,4 @@
+import { ZettelTypes } from '@zettelooo/api-types'
 import { Activated } from './definitions/Activated'
 import { Card } from './definitions/Card'
 import { MainView } from './definitions/MainView'
@@ -7,13 +8,13 @@ import { PublicPageView } from './definitions/PublicPageView'
 import { SignedIn } from './definitions/SignedIn'
 import { SignedOut } from './definitions/SignedOut'
 
-export interface Definitions<PD = any, CD = any> {
-  activated: Activated<PD, CD>
-  signedIn: SignedIn<PD, CD>
-  // signedOut: SignedOut<PD, CD>
-  mainView: MainView<PD, CD>
-  pagePanel: PagePanel<PD, CD>
-  card: Card<PD, CD>
-  publicPageView: PublicPageView<PD, CD>
-  publicCardView: PublicCardView<PD, CD>
+export interface Definitions<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
+  activated: Activated<D>
+  signedIn: SignedIn<D>
+  signedOut: SignedOut<D>
+  mainView: MainView<D>
+  pagePanel: PagePanel<D>
+  card: Card<D>
+  publicPageView: PublicPageView<D>
+  publicCardView: PublicCardView<D>
 }
