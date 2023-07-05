@@ -12,5 +12,4 @@ export interface ManifestJson {
   }
   readonly documentationMarkdownFile?: string
   readonly scopes: readonly ZettelExtensions.Scope[]
-  readonly extensionDependencies?: readonly string[]
 }
