@@ -17,7 +17,7 @@ export namespace CardData {
   ) => D['cardPublic'] | undefined
 
   export interface Extractor<D extends ZettelTypes.Data = ZettelTypes.Data.Default, T = any> {
-    readonly to?: (data: D['cardPublic'] | undefined) => WritableDeep<PartialDeep<T>>
-    readonly from?: (data: T | undefined) => WritableDeep<PartialDeep<D['cardPublic']>>
+    readonly to?: (data: D['cardPublic'] | undefined) => WritableDeep<PartialDeep<T>> | undefined
+    readonly from?: (data: T | undefined) => WritableDeep<PartialDeep<D['cardPublic']>> | undefined
   }
 }
