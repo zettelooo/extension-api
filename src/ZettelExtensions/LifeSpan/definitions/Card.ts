@@ -10,7 +10,7 @@ export type Card<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBu
     pageId: Id
     cardId: Id
   },
-  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
+  [Scope.Device, Scope.User, Scope.Page],
   {
     card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
     mode: Shared.Mode

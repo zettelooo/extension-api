@@ -7,7 +7,7 @@ export type PublicCardView<D extends ZettelTypes.Data = ZettelTypes.Data.Default
   {
     cardId: Id
   },
-  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
+  [Scope.Device, Scope.User, Scope.Page],
   {
     card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
   },

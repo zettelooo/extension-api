@@ -9,7 +9,7 @@ export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
   {
     pageId: Id
   },
-  [Scope.Device, Scope.User, Scope.Space, Scope.Page],
+  [Scope.Device, Scope.User, Scope.Page],
   {
     page: ZettelTypes.Model.Page<D['pagePrivate']>
     cards: readonly ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>[]

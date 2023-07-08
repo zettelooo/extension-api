@@ -2,6 +2,5 @@
 export enum Scope {
   Device = 'DEVICE',
   User = 'USER',
-  Space = 'SPACE',
   Page = 'PAGE',
 }
