@@ -47,7 +47,7 @@ export type Activated<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
 
     renderedSelect(getter: () => Shared.RenderedSelect): Registrar<Shared.RenderedSelect.Reference>
 
-    renderedCardViewer(getter: () => Shared.RenderedCardViewer<D>): Registrar<Shared.RenderedCardViewer.Reference<D>>
+    renderedCard(getter: () => Shared.RenderedCard<D>): Registrar<Shared.RenderedCard.Reference<D>>
   }
 >
 
@@ -216,7 +216,7 @@ export namespace Shared {
     }
   }
 
-  export interface RenderedCardViewer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends RenderedElement {
+  export interface RenderedCard<D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends RenderedElement {
     readonly card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
     readonly previewHeight: number
     readonly showOwner?: boolean
@@ -225,10 +225,10 @@ export namespace Shared {
     readonly isHighlighted?: boolean
   }
 
-  export namespace RenderedCardViewer {
+  export namespace RenderedCard {
     export interface Reference<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
       readonly update: (
-        updates: Partial<RenderedCardViewer<D>> | ((previous: RenderedCardViewer<D>) => Partial<RenderedCardViewer<D>>)
+        updates: Partial<RenderedCard<D>> | ((previous: RenderedCard<D>) => Partial<RenderedCard<D>>)
       ) => void
     }
   }

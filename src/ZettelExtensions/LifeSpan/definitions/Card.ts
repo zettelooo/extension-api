@@ -13,45 +13,28 @@ export type Card<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBu
   [Scope.Device, Scope.User, Scope.Page],
   {
     card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
-    mode: Shared.Mode
   },
   {},
   {
-    contextMenuItems(getter: () => Shared.ContextMenuItems): Registrar
+    menuItem(getter: () => Shared.MenuItem): Registrar
 
-    extendedHtmlContent<S = undefined>(
-      getter: () => Shared.ExtendedHtmlContent<S>
-    ): Registrar<Shared.ExtendedHtmlContent.Reference<S>>
+    part<S = undefined>(getter: () => Shared.Part<S>): Registrar<Shared.Part.Reference<S>>
   }
 >
 
 export namespace Shared {
-  export type Mode = 'full' | 'compact'
-
-  export type ContextMenuItems = readonly ContextMenuItems.ContextMenuItem[]
-
-  export namespace ContextMenuItems {
-    export interface ContextMenuItem {
-      readonly title: string
-      readonly handler: () => void
-    }
+  export interface MenuItem {
+    readonly title: string
+    readonly handler: () => void
   }
 
-  export interface ExtendedHtmlContent<S = undefined> extends HtmlContent<S> {
-    readonly position?: ExtendedHtmlContent.Position
-    readonly originalContent?: ExtendedHtmlContent.OriginalContent
+  export interface Part<S = undefined> extends HtmlContent<S> {
+    // Nothing more!
   }
 
-  export namespace ExtendedHtmlContent {
-    export type Position = 'bottom' | 'top'
-    export type OriginalContent = 'no preferences' | 'must show' | 'better show' | 'better hide' | 'must hide'
-
+  export namespace Part {
     export interface Reference<S = undefined> extends HtmlContent.Reference<S> {
-      readonly update: (
-        updates:
-          | Partial<ExtendedHtmlContent<S>>
-          | ((previous: ExtendedHtmlContent<S>) => Partial<ExtendedHtmlContent<S>>)
-      ) => void
+      readonly update: (updates: Partial<Part<S>> | ((previous: Part<S>) => Partial<Part<S>>)) => void
     }
   }
 }

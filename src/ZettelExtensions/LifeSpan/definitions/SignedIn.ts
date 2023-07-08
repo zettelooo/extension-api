@@ -29,15 +29,7 @@ export namespace Shared {
       Partial<
         Pick<
           ZettelTypes.Model.Page<D['pagePrivate']>,
-          | 'name'
-          | 'description'
-          | 'iconEmoji'
-          | 'avatarFileId'
-          | 'color'
-          | 'memberUserIds'
-          | 'public'
-          | 'hasExtensionInstalled'
-          | 'privateData'
+          'name' | 'description' | 'iconEmoji' | 'avatarFileId' | 'color' | 'memberUserIds' | 'public' | 'privateData'
         >
       >
   }
@@ -57,7 +49,6 @@ export namespace Shared {
   export namespace UpdateCard {
     export type CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = {
       readonly id: string
-      readonly pageId?: string
       readonly sequenceBetween?: {
         readonly previousSequence?: string
         readonly nextSequence?: string

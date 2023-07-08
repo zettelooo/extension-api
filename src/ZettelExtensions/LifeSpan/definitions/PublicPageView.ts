@@ -17,7 +17,7 @@ export type PublicPageView<D extends ZettelTypes.Data = ZettelTypes.Data.Default
     consumeService(name: string): ((requestData: any) => Promise<any>) | null
   },
   {
-    provideService(name: string, service: (requestData: any) => any | Promise<any>): Registrar
+    serviceProvider(name: string, service: (requestData: any) => any | Promise<any>): Registrar
   }
 >
 
