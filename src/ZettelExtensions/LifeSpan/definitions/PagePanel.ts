@@ -16,6 +16,10 @@ export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
   },
   {
     consumeService(name: string): ((requestData: any) => Promise<any>) | null
+
+    composerSubmit(): Promise<void>
+
+    composerReset(): void
   },
   {
     serviceProvider(name: string, service: (requestData: any) => any | Promise<any>): Registrar

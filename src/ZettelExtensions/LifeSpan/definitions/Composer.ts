@@ -22,7 +22,7 @@ export type Composer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
 
 export namespace Shared {
   export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends HtmlContent<S> {
-    readonly position?: 'bottom' | 'top'
+    readonly hideControls?: boolean
     readonly formatState: (data: Part.Data<D>) => S
     readonly parseState: (state: S, previousData?: Part.Data<D>) => Part.Data<D>
   }
