@@ -14,7 +14,11 @@ export type Composer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
     page: ZettelTypes.Model.Page<D['pagePrivate']>
     card?: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
   },
-  {},
+  {
+    submit(): Promise<void>
+
+    reset(): void
+  },
   {
     part<S = undefined>(getter: () => Shared.Part<S, D>): Registrar<Shared.Part.Reference<S, D>>
   }
@@ -24,6 +28,7 @@ export namespace Shared {
   export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends HtmlContent<S> {
     readonly hideControls?: boolean
     readonly formatState: (data: Part.Data<D>) => S
+    /** Just throw an error with a proper message if it can not be done. */
     readonly parseState: (state: S, previousData?: Part.Data<D>) => Part.Data<D>
   }
 
