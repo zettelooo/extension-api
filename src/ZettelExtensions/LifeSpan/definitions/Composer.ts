@@ -25,7 +25,8 @@ export type Composer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
 >
 
 export namespace Shared {
-  export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends HtmlContent<S> {
+  export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
+    extends Omit<HtmlContent<S>, 'initialState'> {
     readonly hideControls?: boolean
     readonly formatState: (data: Part.Data<D>) => S
     /** Just throw an error with a proper message if it can not be done. */
