@@ -1,1 +1,1 @@
-export const version = '4.2.6' // @@VERSION-LINE@@
+export const version = '4.2.7' // @@VERSION-LINE@@
