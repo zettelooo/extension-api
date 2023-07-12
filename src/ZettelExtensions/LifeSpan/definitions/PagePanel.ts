@@ -46,7 +46,7 @@ export namespace Shared {
 
   export interface Message<S = undefined> extends HtmlContent<S> {
     readonly variant?: Message.Variant
-    readonly onClose?: () => void | 'prevent'
+    readonly onClose?: () => void
     readonly hidden?: boolean
   }
 
