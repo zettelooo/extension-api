@@ -14,12 +14,8 @@ export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
     page: ZettelTypes.Model.Page<D['pagePrivate']>
     cards: readonly ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>[]
   },
+  {},
   {
-    consumeService(name: string): ((requestData: any) => Promise<any>) | null
-  },
-  {
-    serviceProvider(name: string, service: (requestData: any) => any | Promise<any>): Registrar
-
     menuItem(getter: () => Shared.MenuItem): Registrar<Shared.MenuItem.Reference>
 
     message<S = undefined>(getter: () => Shared.Message<S>): Registrar<Shared.Message.Reference<S>>

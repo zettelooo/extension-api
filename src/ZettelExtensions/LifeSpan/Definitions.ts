@@ -8,12 +8,14 @@ import { PublicCardView } from './definitions/PublicCardView'
 import { PublicPageView } from './definitions/PublicPageView'
 import { SignedIn } from './definitions/SignedIn'
 import { SignedOut } from './definitions/SignedOut'
+import { Page } from './definitions/Page'
 
 export interface Definitions<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
   activated: Activated<D>
   card: Card<D>
   composer: Composer<D>
   mainView: MainView<D>
+  page: Page<D>
   pagePanel: PagePanel<D>
   publicCardView: PublicCardView<D>
   publicPageView: PublicPageView<D>
