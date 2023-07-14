@@ -1,5 +1,5 @@
 import { ZettelTypes } from '@zettelooo/api-types'
-import { Id, ReadonlyRecord } from '@zettelooo/commons'
+import { ReadonlyRecord } from '@zettelooo/commons'
 import { Scope } from '../Scope'
 import { Definitions } from './Definitions'
 
@@ -17,15 +17,6 @@ export type Watch<N extends Name, D extends ZettelTypes.Data = ZettelTypes.Data.
     pickDependencies?: (data: ReadonlyRecord<keyof Data<N, D>, Data<N, D>>) => any
   }
 ) => Registrar
-
-export interface Exposed {
-  readonly provider: (version: number | string, provide: () => any) => Registrar
-  readonly consumer: (
-    providerExtensionId: Id,
-    version: number | string,
-    consume: (exposed: any) => () => void
-  ) => Registrar
-}
 
 export type Registrar<R = undefined> = R extends undefined
   ? () => () => void

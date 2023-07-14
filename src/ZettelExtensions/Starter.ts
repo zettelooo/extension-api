@@ -74,7 +74,6 @@ export namespace Starter {
     readonly data: LifeSpan.Data<N, D>
     readonly access: LifeSpan.Access<N, D>
     readonly watch: LifeSpan.Watch<N, D>
-    readonly exposed: LifeSpan.Exposed
     readonly registry: LifeSpan.Registry<N, D>
     readonly disposed: boolean
 
