@@ -16,6 +16,8 @@ export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
   },
   {},
   {
+    initializer(initializer: Shared.Initializer): Registrar
+
     menuItem(getter: () => Shared.MenuItem): Registrar<Shared.MenuItem.Reference>
 
     message<S = undefined>(getter: () => Shared.Message<S>): Registrar<Shared.Message.Reference<S>>
@@ -29,6 +31,8 @@ export type PagePanel<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
 >
 
 export namespace Shared {
+  export type Initializer = (input: { readonly command?: string }) => void | Promise<void>
+
   export interface MenuItem {
     readonly title: string
     handler(): void
