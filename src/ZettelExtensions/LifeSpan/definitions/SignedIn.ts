@@ -7,13 +7,13 @@ export type SignedIn<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
   [Scope.Device, Scope.User],
   {
     account: ZettelTypes.Model.User
-    accountPagesOrdered: readonly ZettelTypes.Model.Page<D['pagePrivate']>[]
-    accountCardsOrdered: readonly ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>[]
+    accountPagesOrdered: readonly ZettelTypes.Model.Page<D['page']>[]
+    accountCardsOrdered: readonly ZettelTypes.Model.Card<D['card']>[]
   },
   {
     updatePage(updates: Shared.UpdatePage.PageData<D>): Promise<void>
 
-    createCard(card: Shared.CreateCard.CardData<D>): Promise<ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>>
+    createCard(card: Shared.CreateCard.CardData<D>): Promise<ZettelTypes.Model.Card<D['card']>>
 
     updateCard(updates: Shared.UpdateCard.CardData<D>): Promise<void>
   },
@@ -23,13 +23,13 @@ export type SignedIn<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
 export namespace Shared {
   export namespace UpdatePage {
     export type PageData<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Pick<
-      ZettelTypes.Model.Page<D['pagePrivate']>,
+      ZettelTypes.Model.Page<D['page']>,
       'id'
     > &
       Partial<
         Pick<
-          ZettelTypes.Model.Page<D['pagePrivate']>,
-          'name' | 'description' | 'iconEmoji' | 'avatarFileId' | 'color' | 'memberUserIds' | 'public' | 'privateData'
+          ZettelTypes.Model.Page<D['page']>,
+          'name' | 'description' | 'iconEmoji' | 'avatarFileId' | 'color' | 'memberUserIds' | 'public' | 'data'
         >
       >
   }
@@ -41,8 +41,7 @@ export namespace Shared {
         readonly previousSequence?: string
         readonly nextSequence?: string
       }
-      readonly publicData?: D['cardPublic']
-      readonly privateData?: D['cardPrivate']
+      readonly data?: D['card']
     }
   }
 
@@ -53,8 +52,7 @@ export namespace Shared {
         readonly previousSequence?: string
         readonly nextSequence?: string
       }
-      readonly publicData?: D['cardPublic']
-      readonly privateData?: D['cardPrivate']
+      readonly data?: D['card']
     }
   }
 }

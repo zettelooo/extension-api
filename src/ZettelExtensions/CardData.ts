@@ -12,12 +12,12 @@ export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default>
 
 export namespace CardData {
   export type Constructor<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = (
-    previousData: D['cardPublic'] | undefined,
-    extractions: readonly PartialDeep<D['cardPublic']>[]
-  ) => D['cardPublic'] | undefined
+    previousData: D['card'] | undefined,
+    extractions: readonly PartialDeep<D['card']>[]
+  ) => D['card'] | undefined
 
   export interface Extractor<D extends ZettelTypes.Data = ZettelTypes.Data.Default, T = any> {
-    readonly to?: (data: D['cardPublic'] | undefined) => WritableDeep<PartialDeep<T>> | undefined
-    readonly from?: (data: T | undefined) => WritableDeep<PartialDeep<D['cardPublic']>> | undefined
+    readonly to?: (data: D['card']) => WritableDeep<PartialDeep<T>> | undefined
+    readonly from?: (data: T) => WritableDeep<PartialDeep<D['card']>> | undefined
   }
 }

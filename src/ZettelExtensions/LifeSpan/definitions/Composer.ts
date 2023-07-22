@@ -11,8 +11,8 @@ export type Composer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
   },
   [Scope.Device, Scope.User, Scope.Page],
   {
-    page: ZettelTypes.Model.Page<D['pagePrivate']>
-    card?: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
+    page: ZettelTypes.Model.Page<D['page']>
+    card?: ZettelTypes.Model.Card<D['card']>
   },
   {
     submit(): Promise<void>
@@ -28,17 +28,12 @@ export namespace Shared {
   export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
     extends Omit<HtmlContent<S>, 'initialState'> {
     readonly hideControls?: boolean
-    readonly formatState: (data: Part.Data<D>) => S
+    readonly formatState: (data: D['card']) => S
     /** Just throw an error with a proper message if it can not be done. */
-    readonly parseState: (state: S, previousData?: Part.Data<D>) => Part.Data<D>
+    readonly parseState: (state: S, previousData?: D['card']) => D['card']
   }
 
   export namespace Part {
-    export type Data<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Pick<
-      ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>,
-      'publicData' | 'privateData'
-    >
-
     export interface Reference<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
       extends HtmlContent.Reference<S> {
       readonly update: (updates: Partial<Part<S, D>> | ((previous: Part<S, D>) => Partial<Part<S, D>>)) => void

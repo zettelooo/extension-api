@@ -9,7 +9,7 @@ export type PublicCardView<D extends ZettelTypes.Data = ZettelTypes.Data.Default
   },
   [Scope.Device, Scope.User, Scope.Page],
   {
-    card: ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>
+    card: ZettelTypes.Model.Card<D['card']>
   },
   {},
   {}

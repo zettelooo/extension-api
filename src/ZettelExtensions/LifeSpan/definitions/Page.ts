@@ -10,8 +10,8 @@ export type Page<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBu
   },
   [Scope.Device, Scope.User, Scope.Page],
   {
-    page: ZettelTypes.Model.Page<D['pagePrivate']>
-    cards: readonly ZettelTypes.Model.Card<D['cardPublic'], D['cardPrivate']>[]
+    page: ZettelTypes.Model.Page<D['page']>
+    cards: readonly ZettelTypes.Model.Card<D['card']>[]
   },
   {
     consumeService(name: string): ((requestData: any) => Promise<any>) | null
