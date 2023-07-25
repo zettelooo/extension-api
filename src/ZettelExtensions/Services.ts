@@ -12,23 +12,13 @@ export namespace Services {
     readonly name: string
     readonly displayName?: string
     readonly description?: string
-    readonly requestData?: {
-      readonly description?: string
-      readonly converters?: {
-        readonly [extensionId: Id]: {
-          readonly serviceName: string
-          readonly converter: (data: any) => any
-        }
-      }
-    }
-    readonly responseData?: {
-      readonly description?: string
-      readonly converters?: {
-        readonly [extensionId: Id]: {
-          readonly serviceName: string
-          readonly converter: (data: any) => any
-        }
-      }
-    }
+    readonly requestDataDescription?: string
+    readonly responseDataDescription?: string
+    readonly bindings?: readonly {
+      readonly extensionId: Id
+      readonly serviceName: string
+      readonly convertRequestData?: (data: any) => any
+      readonly convertResponseData?: (data: any) => any
+    }[]
   }
 }
