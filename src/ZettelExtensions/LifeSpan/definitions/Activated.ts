@@ -218,10 +218,6 @@ export namespace Shared {
 
   export interface RenderedCard<D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends RenderedElement {
     readonly card: ZettelTypes.Model.Card<D['card']>
-    readonly previewHeight: number
-    readonly showOwner?: boolean
-    readonly displayPage?: ZettelTypes.Model.Page<D['page']>
-    readonly showTimestamp?: boolean
     readonly isHighlighted?: boolean
   }
 
