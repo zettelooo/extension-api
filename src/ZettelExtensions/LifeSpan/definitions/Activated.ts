@@ -47,7 +47,7 @@ export type Activated<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = T
 
     renderedSelect(getter: () => Shared.RenderedSelect): Registrar<Shared.RenderedSelect.Reference>
 
-    renderedCard(getter: () => Shared.RenderedCard<D>): Registrar<Shared.RenderedCard.Reference<D>>
+    renderedCard(getter: () => Shared.RenderedCard): Registrar<Shared.RenderedCard.Reference>
   }
 >
 
@@ -216,16 +216,14 @@ export namespace Shared {
     }
   }
 
-  export interface RenderedCard<D extends ZettelTypes.Data = ZettelTypes.Data.Default> extends RenderedElement {
-    readonly card: ZettelTypes.Model.Card<D['card']>
+  export interface RenderedCard extends RenderedElement {
+    readonly cardId: Id
     readonly isHighlighted?: boolean
   }
 
   export namespace RenderedCard {
-    export interface Reference<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
-      readonly update: (
-        updates: Partial<RenderedCard<D>> | ((previous: RenderedCard<D>) => Partial<RenderedCard<D>>)
-      ) => void
+    export interface Reference {
+      readonly update: (updates: Partial<RenderedCard> | ((previous: RenderedCard) => Partial<RenderedCard>)) => void
     }
   }
 }
