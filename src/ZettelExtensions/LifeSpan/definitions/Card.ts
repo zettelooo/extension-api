@@ -12,6 +12,7 @@ export type Card<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = TypeBu
   },
   [Scope.Device, Scope.User, Scope.Page],
   {
+    page: ZettelTypes.Model.Page<D['page']>
     card: ZettelTypes.Model.Card<D['card']>
   },
   {},
