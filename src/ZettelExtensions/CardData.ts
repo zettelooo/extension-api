@@ -4,7 +4,7 @@ import { PartialDeep, WritableDeep } from 'type-fest'
 
 export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
   readonly description?: string
-  readonly constructor?: CardData.Constructor<D>
+  readonly construct?: CardData.Constructor<D>
   readonly extractors?: {
     readonly [extensionId: Id]: CardData.Extractor<D>
   }
