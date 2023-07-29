@@ -9,7 +9,9 @@ export type Helper<
   R = void,
   D extends ZettelTypes.Data = ZettelTypes.Data.Default
 > = (
-  this: ('api' extends Exclude<N, LifeSpan.Name> ? Starter.Api.This<D> : never) | Helper.LifeSpanApi<Exclude<N, 'api'>>,
+  this:
+    | ('api' extends Exclude<N, LifeSpan.Name> ? Starter.Api.This<D> : never)
+    | Helper.LifeSpanApi<Exclude<N, 'api'>, D>,
   provided: ('api' extends Exclude<P, LifeSpan.Name> ? { readonly api: Starter.Api<D> } : {}) & {
     readonly [K in Exclude<P, 'api'> as `${K}Api`]: Starter.LifeSpanApi<K, D>
   },
