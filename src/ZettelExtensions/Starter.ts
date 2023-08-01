@@ -53,8 +53,8 @@ export namespace Starter {
     ) => string
 
     readonly localStorage: {
-      readonly read: () => Promise<any>
-      readonly write: (data: any | ((oldData: any) => any)) => Promise<void>
+      readonly read: <T = any>() => Promise<T>
+      readonly write: <T = any>(data: T | ((oldData: T) => T)) => Promise<void>
     }
 
     /** @deprecated This method is unsafe, use `this.while()` instead. */
