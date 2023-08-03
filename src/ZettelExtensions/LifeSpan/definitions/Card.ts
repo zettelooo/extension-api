@@ -30,10 +30,12 @@ export namespace Shared {
   }
 
   export interface Part<S = undefined> extends HtmlContent<S> {
-    // Nothing more!
+    readonly position?: Part.Position
   }
 
   export namespace Part {
+    export type Position = 'middle' | 'bottom' | 'top'
+
     export interface Reference<S = undefined> extends HtmlContent.Reference<S> {
       readonly update: (updates: Partial<Part<S>> | ((previous: Part<S>) => Partial<Part<S>>)) => void
     }

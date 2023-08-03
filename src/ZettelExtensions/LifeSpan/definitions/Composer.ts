@@ -27,6 +27,7 @@ export type Composer<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = Ty
 export namespace Shared {
   export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
     extends Omit<HtmlContent<S>, 'initialState'> {
+    readonly position?: Part.Position
     readonly hideControls?: boolean
     readonly formatState: (data: D['card']) => S
     /** Just throw an error with a proper message if it can not be done. */
@@ -34,6 +35,8 @@ export namespace Shared {
   }
 
   export namespace Part {
+    export type Position = 'middle' | 'bottom' | 'top'
+
     export interface Reference<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
       extends HtmlContent.Reference<S> {
       readonly update: (updates: Partial<Part<S, D>> | ((previous: Part<S, D>) => Partial<Part<S, D>>)) => void
