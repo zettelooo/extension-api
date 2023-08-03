@@ -13,7 +13,8 @@ export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default>
 export namespace CardData {
   export type Constructor<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = (
     previousData: D['card'] | undefined,
-    extractions: readonly PartialDeep<D['card']>[]
+    issuingExtractions: readonly PartialDeep<D['card']>[],
+    getOtherExtractions: () => readonly PartialDeep<D['card']>[]
   ) => D['card'] | undefined
 
   export interface Extractor<D extends ZettelTypes.Data = ZettelTypes.Data.Default, T = any> {
