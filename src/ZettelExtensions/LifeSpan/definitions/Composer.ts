@@ -28,6 +28,7 @@ export namespace Shared {
   export interface Part<S = undefined, D extends ZettelTypes.Data = ZettelTypes.Data.Default>
     extends Omit<HtmlContent<S>, 'initialState'> {
     readonly position?: Part.Position
+    readonly grow?: boolean
     readonly hideControls?: boolean
     readonly formatState: (data: D['card']) => S
     /** Just throw an error with a proper message if it can not be done. */

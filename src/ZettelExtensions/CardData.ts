@@ -8,6 +8,7 @@ export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default>
   readonly extractors?: {
     readonly [extensionId: Id]: CardData.Extractor<D>
   }
+  readonly commonExtractor?: CardData.Extractor<D, CardData.CommonData>
 }
 
 export namespace CardData {
@@ -20,5 +21,10 @@ export namespace CardData {
   export interface Extractor<D extends ZettelTypes.Data = ZettelTypes.Data.Default, T = any> {
     readonly to?: (data: D['card']) => WritableDeep<PartialDeep<T>> | undefined
     readonly from?: (data: T) => WritableDeep<PartialDeep<D['card']>> | undefined
+  }
+
+  export interface CommonData {
+    readonly text: string
+    // TODO: Files and other fields to be added.
   }
 }
