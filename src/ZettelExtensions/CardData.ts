@@ -1,6 +1,5 @@
 import { ZettelTypes } from '@zettelooo/api-types'
-import { Id } from '@zettelooo/commons'
-import { PartialDeep, WritableDeep } from 'type-fest'
+import { DeepPartial, DeepWritable, Id } from '@zettelooo/commons'
 
 export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default> {
   readonly description?: string
@@ -14,13 +13,13 @@ export interface CardData<D extends ZettelTypes.Data = ZettelTypes.Data.Default>
 export namespace CardData {
   export type Constructor<D extends ZettelTypes.Data = ZettelTypes.Data.Default> = (
     previousData: D['card'] | undefined,
-    issuingExtractions: readonly PartialDeep<D['card']>[],
-    getOtherExtractions: () => PartialDeep<D['card']>[]
+    issuingExtractions: readonly DeepPartial<D['card']>[],
+    getOtherExtractions: () => DeepPartial<D['card']>[]
   ) => D['card'] | undefined
 
   export interface Extractor<D extends ZettelTypes.Data = ZettelTypes.Data.Default, T = any> {
-    readonly to?: (data: D['card']) => WritableDeep<PartialDeep<T>> | undefined
-    readonly from?: (data: T) => WritableDeep<PartialDeep<D['card']>> | undefined
+    readonly to?: (data: D['card']) => DeepWritable<DeepPartial<T>> | undefined
+    readonly from?: (data: T) => DeepWritable<DeepPartial<D['card']>> | undefined
   }
 
   export interface CommonData {
