@@ -24,7 +24,7 @@ export namespace CardData {
   }
 
   export interface CommonData {
-    readonly text: string
+    readonly text?: string
     // TODO: Files and other fields to be added.
   }
 }
