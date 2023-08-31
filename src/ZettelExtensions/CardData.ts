@@ -26,4 +26,10 @@ export namespace CardData {
     readonly text?: string
     // TODO: Files and other fields to be added.
   }
+
+  export namespace CommonData {
+    export function isEmpty(commonData: CommonData): boolean {
+      return !commonData.text
+    }
+  }
 }
